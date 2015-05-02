@@ -9,7 +9,6 @@
 
         public function action_index()
         {
-		echo 'Hello';
 		$this->content = View::factory('home');
         }
 }
