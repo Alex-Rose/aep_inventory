@@ -3,3 +3,5 @@ application/logs
 .commit_state
 .dev_state
 assets/uploads/*
+prepare_commit.sh
+replace_commit.sh
