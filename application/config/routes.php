@@ -1,8 +1,8 @@
 <?php
 
-Route::set('auth', '<action>', ['action' => '(login|logout|register|forgot)'])
+Route::set('auth', '<action>(/<id>)', ['action' => '(login|logout|register|forgot)'])
     ->defaults(array(
-        'controller' => 'auth',
+        'controller' => 'Auth',
         'action'     => 'login',
     ));
 Route::set('default', '(<controller>(/<action>(/<id>(/<option>(/<option1>)))))')

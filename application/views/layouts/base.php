@@ -19,9 +19,9 @@
 	<?php echo HTML::script('assets/js/jquery-2.1.3.min.js'); ?>
 	<?php echo HTML::script('assets/bootstrap-3.3.4-dist/js/bootstrap.js'); ?>
 	<?php echo HTML::script('assets/js/metisMenu.js'); ?>
-	<?php echo HTML::script('assets/js/raphael-min.js'); ?>
-	<?php echo HTML::script('assets/js/morris.min.js'); ?>
-	<?php echo HTML::script('assets/js/morris-data.js'); ?>
+	<?php //echo HTML::script('assets/js/raphael-min.js'); ?>
+	<?php //echo HTML::script('assets/js/morris.min.js'); ?>
+	<?php //echo HTML::script('assets/js/morris-data.js'); ?>
 	<?php echo HTML::script('assets/js/sb-admin-2.js'); ?>
 	<?php
 		if (isset($addJs))
@@ -43,12 +43,16 @@
 
     <div id="wrapper">
 
-        <?php echo $header; ?>
+        <?php if (isset($header))echo $header; ?>
 
-        <div id="page-wrapper">
-           <?php echo $content; ?>
-        </div>
-        <!-- /#page-wrapper -->
+		<?php if (isset($content)){?>
+			<div id="page-wrapper">
+			   <?php echo $content; ?>
+			</div>
+			<!-- /#page-wrapper -->
+		<?php }?>
+
+		<?php if (isset($fullScreen))echo $fullScreen; ?>
 
     </div>
     <!-- /#wrapper -->

@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Gestion de bière - AEP</a>
+                <a class="navbar-brand" href="<?php echo URL::site('home');?>">Gestion de bière - AEP</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -212,7 +212,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="<?php echo URL::site('logout');?>"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

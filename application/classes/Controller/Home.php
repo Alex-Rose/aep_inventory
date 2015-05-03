@@ -4,7 +4,9 @@
     {
         public function before()
         {
-		parent::before();
+		    parent::before();
+
+            $this->ensureLoggedIn();
         }
 
         public function action_index()

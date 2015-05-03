@@ -12,6 +12,8 @@
 
         protected $view = array();
 
+        private $beforeCalled = false;
+
 
         public function __construct($request, $response)
         {
@@ -40,11 +42,15 @@
 
             $this->handleClosedSite();
 
+            $this->user = Model_User::current();
+
             parent::before();
 
             $this->view['session'] = Session::instance();
             $this->view['request'] = $this->request;
             $this->view['response'] = $this->response;
+
+            $this->beforeCalled = true;
         }
 
         public function after()
@@ -137,6 +143,20 @@
                             break;
                     }
                 }
+            }
+        }
+
+        protected function ensureLoggedIn()
+        {
+            if (!$this->beforeCalled)
+            {
+                $this->user = Model_User::current();
+            }
+
+            if (!$this->user->isLogged())
+            {
+                Session::instance()->set('redirect', $this->request->uri());
+                HTTP::redirect('login');
             }
         }
     }
