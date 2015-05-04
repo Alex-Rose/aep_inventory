@@ -10,6 +10,9 @@
             $this->feedback[1] = Helper_Alert::danger('Courriel ou mot de passe invalide. Mot de passe '.HTML::anchor('forgot', 'oublié').'?');
             $this->feedback[2] = Helper_Alert::success('Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter');
             $this->feedback[3] = Helper_Alert::danger('Votre mot de passe n\'a pu être modifié. Contactez l\'administrateur');
+            $this->feedback[4] = Helper_Alert::success('Votre compte a bien été validé. Vous pouvez maintenant vous connecter');
+            $this->feedback[5] = Helper_Alert::danger('Votre compte n\'a pu être validé. Contactez l\'administrateur');
+            $this->feedback[6] = Helper_Alert::danger('Vous devez d\'abord valider votre adresse courriel. Pour ce faire, vous recevrez un message contenant un lien d\'activation');
             parent::__construct($request, $response);
         }
 
@@ -57,14 +60,24 @@
 
             if (Model_User::login($email, $password))
             {
-                $redirect = Session::instance()->get('redirect');
-                if ($redirect != null)
+                $user = Model_User::current();
+                if ($user->activation != null)
                 {
-                    Session::instance()->set('redirect', null);
+                    Model_User::setup_user(null);
+                    $redirect = 'login/6';
                 }
                 else
                 {
-                    $redirect = 'home';
+                    $redirect = Session::instance()->get('redirect');
+
+                    if ($redirect != null)
+                    {
+                        Session::instance()->set('redirect', null);
+                    }
+                    else
+                    {
+                        $redirect = 'home';
+                    }
                 }
 
                 HTTP::redirect($redirect);
@@ -98,7 +111,28 @@
 
         public function action_validate()
         {
+            $activation = $this->request->param('id');
 
+            if ($activation != null)
+            {
+                $user = ORM::factory('User')->where('activation', '=', $activation)->find();
+
+                if ($user->loaded())
+                {
+                    $user->activation = null;
+                    $user->save();
+
+                    HTTP::redirect('login/4');
+                }
+                else
+                {
+                    HTTP::redirect('login/5');
+                }
+            }
+            else
+            {
+                HTTP::redirect('login/5');
+            }
         }
 
         public function action_reset()

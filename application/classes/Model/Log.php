@@ -9,7 +9,8 @@
 
         public static function Log($msg, $level)
         {
-            $threshold = Model_Parameter::getValue('LOG_LEVEL');
+//            $threshold = Model_Parameter::getValue('LOG_LEVEL');
+            $threshold = 0;
             $threshold = $threshold != null ? $threshold : 0;
             if (self::$levels[$level] >= $threshold)
             {
