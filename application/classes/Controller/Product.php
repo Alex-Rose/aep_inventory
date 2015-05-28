@@ -16,6 +16,8 @@
 
         public function action_edit()
         {
+            $this->title = 'Modification de produit';
+            $this->product = ORM::factory('Product');
             $this->content = View::factory('product_edit');
         }
     }
