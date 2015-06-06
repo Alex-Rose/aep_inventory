@@ -56,6 +56,34 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Prix coûtant</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('cost', $price->cost, ['class' => 'form-control']);?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Prix de vente</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('price', $price->price, ['class' => 'form-control']);?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Taxes</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('taxes', $price->taxes, ['class' => 'form-control']);?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Consigne Québec</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('refund', $price->refund, ['class' => 'form-control']);?>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-lg-offset-2 col-lg-4">
                 <?php echo Form::submit('save', 'Enregistrer', ['class' => 'form-control btn btn-primary']);?>
             </div>
@@ -70,28 +98,5 @@
 
 <script>
     $('input:submit[name=save]').click(postData);
-
-    function postData(e){
-        e.preventDefault();
-
-        var actions = [];
-        var post = {};
-        var form = $(this).closest('form');
-        var items = form.find('input:not(input:submit)');
-
-        for (var i = 0; i < items.length; i++)
-        {
-            post[$(items[i]).attr('name')] = $(items[i]).val();
-        }
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: post
-        }).done(function(data){
-            $('#feedback').html(data.feedback);
-        });
-
-    }
 
 </script>

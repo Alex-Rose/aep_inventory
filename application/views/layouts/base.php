@@ -23,6 +23,7 @@
 	<?php //echo HTML::script('assets/js/morris.min.js'); ?>
 	<?php //echo HTML::script('assets/js/morris-data.js'); ?>
 	<?php echo HTML::script('assets/js/sb-admin-2.js'); ?>
+	<?php echo HTML::script('assets/js/form.js'); ?>
 	<?php
 		if (isset($addJs))
 		{

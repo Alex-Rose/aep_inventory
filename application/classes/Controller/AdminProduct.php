@@ -19,6 +19,10 @@ class Controller_AdminProduct extends Controller_Async
         $pkg_size   = $this->request->post('package_size');
         $type       = $this->request->post('type');
         $code       = $this->request->post('code');
+        $salePrice  = $this->request->post('price');
+        $cost       = $this->request->post('cost');
+        $taxes      = $this->request->post('taxes');
+        $refund     = $this->request->post('refund');
 
         $product = ORM::factory('Product', $id);
 
@@ -32,7 +36,44 @@ class Controller_AdminProduct extends Controller_Async
 
         $product->save();
 
+        $price = ORM::factory('Price')->where('productID', '=', $product->pk())->find();
+
+        $price->productID = $product->pk();
+        $price->cost    = $cost;
+        $price->price   = $salePrice;
+        $price->taxes   = $taxes;
+        $price->refund  = $refund;
+        $price->save();
+
         $this->data['success'] = true;
         $this->data['feedback'] = 'Enregistrement reussi';
+    }
+
+    public function action_search()
+    {
+        $query = $this->request->param('id');
+
+        $keywords = explode(' ', $query);
+
+        $products = ORM::factory('Product');
+        foreach ($keywords as $kw)
+        {
+            $products->where('name', 'LIKE', '%'.$kw.'%');
+        }
+
+        $products = $products->find_all();
+
+        $results = [];
+        foreach ($products as $product)
+        {
+            $result = [];
+            $result['name'] = $product->name;
+            $result['ID'] = $product->pk();
+            $result['brand'] = $product->brand;
+            array_push($results, $result);
+        }
+
+        $this->data['success'] = true;
+        $this->data['results'] = $results;
     }
 }
