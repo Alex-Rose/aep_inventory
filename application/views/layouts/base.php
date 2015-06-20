@@ -16,9 +16,13 @@
 	<?php echo HTML::style('assets/css/metisMenu.min.css', ['media' => 'all']);?>
 	<?php echo HTML::style('assets/css/sb-admin-2.css', ['media' => 'all']);?>
 	<?php echo HTML::style('assets/css/morris.css', ['media' => 'all']);?>
+	<?php echo HTML::style('assets/css/dataTables.bootstrap.css', ['media' => 'all']);?>
+	<?php echo HTML::style('assets/css/dataTables.responsive.css', ['media' => 'all']);?>
 	<?php echo HTML::script('assets/js/jquery-2.1.3.min.js'); ?>
 	<?php echo HTML::script('assets/bootstrap-3.3.4-dist/js/bootstrap.js'); ?>
 	<?php echo HTML::script('assets/js/metisMenu.js'); ?>
+	<?php echo HTML::script('assets/js/jquery.dataTables.min.js'); ?>
+	<?php echo HTML::script('assets/js/dataTables.bootstrap.min.js'); ?>
 	<?php //echo HTML::script('assets/js/raphael-min.js'); ?>
 	<?php //echo HTML::script('assets/js/morris.min.js'); ?>
 	<?php //echo HTML::script('assets/js/morris-data.js'); ?>

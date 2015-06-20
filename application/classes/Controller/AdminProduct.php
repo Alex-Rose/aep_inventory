@@ -55,13 +55,16 @@ class Controller_AdminProduct extends Controller_Async
 
         $keywords = explode(' ', $query);
 
-        $products = ORM::factory('Product');
+        $products = ORM::factory('Product')->where_open();
         foreach ($keywords as $kw)
         {
             $products->where('name', 'LIKE', '%'.$kw.'%');
         }
+        $products->where_close();
 
-        $products = $products->find_all();
+        $products->or_where('code', 'LIKE', '%'.$query.'%');
+
+        $products = $products->limit(10)->find_all();
 
         $results = [];
         foreach ($products as $product)
@@ -70,6 +73,7 @@ class Controller_AdminProduct extends Controller_Async
             $result['name'] = $product->name;
             $result['ID'] = $product->pk();
             $result['brand'] = $product->brand;
+            $result['code'] = $product->code;
             array_push($results, $result);
         }
 

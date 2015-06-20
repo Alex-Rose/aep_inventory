@@ -11,6 +11,7 @@
 
         public function action_index()
         {
+            $this->title = 'Inventaire';
             $this->inventory = ORM::factory('Inventory')->find_all();
             $this->content = View::factory('inventory');
         }
