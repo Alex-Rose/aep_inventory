@@ -16,8 +16,10 @@
 
         public function action_edit()
         {
+            $id = $this->request->param('id');
+
             $this->title = 'Modification de produit';
-            $this->product = ORM::factory('Product');
+            $this->product = ORM::factory('Product', $id);
             $this->price = ORM::factory('Price')->where('productID', '=', $this->product->pk())->find();
             $this->content = View::factory('product_edit');
         }

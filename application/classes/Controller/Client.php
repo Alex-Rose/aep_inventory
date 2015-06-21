@@ -35,7 +35,7 @@
         {
             $id = $this->request->param('id');
 
-            $this->title = 'Ajout d\'un client';
+            $this->title = 'Modification d\'un client';
             $this->client = ORM::factory('Client', $id);
             $this->content = View::factory('client_edit');
         }

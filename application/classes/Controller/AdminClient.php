@@ -62,4 +62,17 @@
             $this->data['success'] = true;
             $this->data['results'] = $results;
         }
+
+        public function action_allNames()
+        {
+            $clients = ORM::factory('Client')->find_all();
+
+            $result = [];
+            foreach ($clients as $client)
+            {
+                array_push($result, $client->name);
+            }
+
+            $this->data = $result;
+        }
     }

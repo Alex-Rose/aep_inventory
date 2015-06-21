@@ -80,4 +80,46 @@ class Controller_AdminProduct extends Controller_Async
         $this->data['success'] = true;
         $this->data['results'] = $results;
     }
+
+    public function action_allProducts()
+    {
+        $products = ORM::factory('Product')->find_all();
+
+        $result = [];
+        foreach ($products as $product)
+        {
+            array_push($result, $product->code . ' - ' . $product->name);
+        }
+
+        $this->data = $result;
+    }
+
+    // This is not very scalable. Consider making calls to get what is needed OR cache result on clients
+    public function action_associative()
+    {
+        $products = ORM::factory('Product')->find_all();
+
+        $result = [];
+        foreach ($products as $product)
+        {
+            $p = [];
+            $p['ID'] = $product->pk();
+            $p['name'] = $product->name;
+            $p['code'] = $product->code;
+            $p['description'] = $product->description;
+            $p['brand'] = $product->format;
+            $p['package_size'] = $product->package_size;
+            $p['type'] = $product->type;
+            $price = $product->prices->order_by('created', 'DESC')->find();
+
+                $p['cost'] = $price->cost;
+                $p['price'] = $price->price;
+                $p['taxes'] = $price->taxes;
+                $p['refund'] = $price->refund;
+
+            $result[$product->code . ' - ' . $product->name] = $p;
+        }
+
+        $this->data = $result;
+    }
 }

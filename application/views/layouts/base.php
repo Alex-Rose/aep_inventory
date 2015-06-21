@@ -18,6 +18,7 @@
 	<?php echo HTML::style('assets/css/morris.css', ['media' => 'all']);?>
 	<?php echo HTML::style('assets/css/dataTables.bootstrap.css', ['media' => 'all']);?>
 	<?php echo HTML::style('assets/css/dataTables.responsive.css', ['media' => 'all']);?>
+	<?php echo HTML::style('assets/css/typeahead.css', ['media' => 'all']);?>
 	<?php echo HTML::script('assets/js/jquery-2.1.3.min.js'); ?>
 	<?php echo HTML::script('assets/bootstrap-3.3.4-dist/js/bootstrap.js'); ?>
 	<?php echo HTML::script('assets/js/metisMenu.js'); ?>
@@ -28,6 +29,7 @@
 	<?php //echo HTML::script('assets/js/morris-data.js'); ?>
 	<?php echo HTML::script('assets/js/sb-admin-2.js'); ?>
 	<?php echo HTML::script('assets/js/form.js'); ?>
+	<?php echo HTML::script('assets/js/typeahead.bundle.js'); ?>
 	<?php
 		if (isset($addJs))
 		{
