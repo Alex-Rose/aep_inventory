@@ -356,3 +356,11 @@ table.dataTable thead .sorting:after {
 .form-group .form-text{
     padding-top: 7px;
 }
+
+table.product-table > tbody > tr > td:not(.qty){
+    padding-top: 14px;
+}
+
+table.product-table input[name=qty]{
+    width: 60px;
+}

@@ -7,5 +7,5 @@
 
         protected $_belongs_to 	= ['client' => ['model' => 'Client', 'foreign_key' => 'clientID']];
 
-        protected $_has_many 	= ['products' => ['model' => 'Product', 'foreign_key' => 'orderID']];
+        protected $_has_many 	= ['items' => ['model' => 'OrderItem', 'foreign_key' => 'orderID']];
     }

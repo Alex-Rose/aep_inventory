@@ -117,7 +117,7 @@ class Controller_AdminProduct extends Controller_Async
                 $p['taxes'] = $price->taxes;
                 $p['refund'] = $price->refund;
 
-            $result[$product->code . ' - ' . $product->name] = $p;
+            $result[$product->code] = $p;
         }
 
         $this->data = $result;

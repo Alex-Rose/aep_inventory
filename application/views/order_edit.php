@@ -31,7 +31,14 @@
                 <div class="row" style="padding-top: 12px;">
                     <div class="col-lg-12">
                         <table class="table table-striped table-bordered table-hover product-table">
-                            <tr><th>Code</th><th>Produit</th><th>Quantité</th><th>Prix</th></tr>
+                            <thead>
+                                <tr><th>Code</th>
+                                    <th>Produit</th>
+                                    <th style="width:200px">Quantité</th>
+                                    <th style="width:200px">Prix</th></tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -39,9 +46,23 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Total</label>
+            <label class="control-label col-lg-2">Sous total</label>
             <div class="col-lg-10">
                 <div class="form-text"><span id="total-amount"><?php echo '0.00';?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Taxes</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-tax-amount"><?php echo '0.00';?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Total</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-wtax-amount"><?php echo '0.00';?></span> $</div>
             </div>
         </div>
 
@@ -66,9 +87,11 @@
 </div>
 
 <?php echo Form::hidden('products-data', URL::site('AdminProduct/associative'));?>
+<?php echo Form::hidden('GST', 0.05);?>
+<?php echo Form::hidden('QST', 0.0975);?>
+<?php echo Form::hidden('ID', $order->pk());?>
 
 <script>
-    $('input:submit[name=save]').click(postData);
 
     $.get($('#client-search .typeahead').attr('data-url'), null, function(value){
         var clients = new Bloodhound({
@@ -115,34 +138,166 @@
         products = value;
     });
 
-    $('button[name=add]').click(function(e){
-        e.preventDefault();
-
+    function addProduct(){
         var row     = $(document.createElement('tr'));
         var code    = $(document.createElement('td'));
         var name    = $(document.createElement('td'));
         var qty     = $(document.createElement('td'));
+        var qtyRow  = $(document.createElement('div'));
+        var qtyCol1 = $(document.createElement('div'));
+        var qtyCol2 = $(document.createElement('div'));
+        var qtyInput= $(document.createElement('input'));
+        var qtyBtn  = $(document.createElement('button'));
         var price   = $(document.createElement('td'));
 
 
-        var product = products[$('input[name=product-search]').val()];
-        var newPrice = $('input[name=add-nb]').val() * parseFloat(product['price'])
-
+        var product = products[$('input[name=product-search]').val().split('-')[0].trim()];
+        var newPrice = $('input[name=add-nb]').val() * parseFloat(product['price']);
         code.html(product['code']);
+        code.addClass('code');
         name.html(product['name']);
-        qty.html($('input[name=add-nb]').val());
-        price.html(newPrice + ' $');
+        name.addClass('name');
+
+        qtyRow.addClass('row');
+        qtyCol1.addClass('col-lg-4');
+        qtyCol2.addClass('col-lg-2');
+
+        qtyInput.addClass('form-control');
+        qtyInput.val($('input[name=add-nb]').val());
+        qtyInput.attr('min', 0);
+        qtyInput.attr('type', 'number');
+        qtyInput.attr('name', 'qty');
+        qtyInput.css('width', 'number');
+        qtyInput.addClass('qty-selector');
+
+        qtyBtn.html('Supprimer');
+        qtyBtn.addClass('btn btn-danger');
+        qtyBtn.addClass('remove');
+        qtyBtn.hide();
+
+
+        qtyCol1.append(qtyInput);
+        qtyCol2.append(qtyBtn);
+        qtyRow.append(qtyCol1);
+        qtyRow.append(qtyCol2);
+        qty.append(qtyRow);
+        qty.addClass('qty');
+
+        price.html(newPrice.toFixed(2) + ' $');
+        price.addClass('price');
 
         row.append(code);
         row.append(name);
         row.append(qty);
         row.append(price);
 
-        $('table.product-table').append(row);
+        $('table.product-table > tbody').append(row);
 
-        var totalAmount = $('#total-amount');
-        totalAmount.html(parseFloat(totalAmount.html()) + newPrice);
+        recalculateTotal();
+
+        $('input[name=product-search]').val('');
+    }
+
+    $('button[name=add]').click(function(e){
+        e.preventDefault();
+
+        addProduct();
     });
 
+    $('input:submit[name=save]').click(function(e){
+        e.preventDefault();
+
+        var products = {};
+        $('table.product-table tbody > tr').each(function(i, item){
+            products[$(item).find('.code').html()] = $(item).find('.qty-selector').val();
+        });
+
+        var url = $(this).closest('form').attr('action');
+        var client = $('input[name=name]').val();
+        var delivered = $('input:checkbox[name=delivered]').prop('checked');
+        var id = $('input:hidden[name=ID]').val();
+
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: { 'ID': id, 'client': client, 'delivered': delivered, 'products': JSON.stringify(products)}
+        }).done(function(data) {
+            $('input:hidden[name=ID]').val(data.ID);
+        });
+    });
+
+    $('input.typeahead').keypress(function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            $('.tt-suggestion:first-child').trigger('click');
+        }
+    });
+
+    $('input.typeahead[name=product-search]').keypress(function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            addProduct();
+        }
+    });
+
+    $(document).on('change', 'input.qty-selector', function(e){
+        var button = $(this).parents('td.qty').find('button.remove');
+        if ($(this).val() == 0){
+            button.slideDown({duration: 200});
+        }
+        else
+        {
+            button.slideUp({duration: 200});
+        }
+
+        var product = products[$(this).parents('tr').find('.code').html()];
+        var newPrice = $(this).val() * parseFloat(product['price']);
+
+        $(this).parents('tr').find('.price').html(newPrice.toFixed(2) + ' $');
+
+        recalculateTotal();
+    });
+
+    $(document).on('click', 'button.remove', function(e){
+        e.preventDefault();
+        $(this).parents('tr').remove();
+    });
+
+    function recalculateTotal(){
+        var totalAmount = $('#total-amount');
+
+        var total = 0.0;
+        $('.price').each(function(i, item){
+            total += parseFloat($(item).html());
+        });
+        totalAmount.html(total.toFixed(2));
+
+        recalculateTax();
+        recalculateTotalWithTax();
+    }
+
+    function recalculateTax(){
+        var totalAmount = $('#total-tax-amount');
+        var gstRate = parseFloat($('input:hidden[name=GST]').val());
+        var qstRate = parseFloat($('input:hidden[name=QST]').val());
+
+        var total = 0.0;
+        $('.price').each(function(i, item){
+            var amount = parseFloat($(item).html());
+            var gst = Math.round(amount * gstRate * 100) / 100;
+
+            var qst = Math.round(amount * qstRate * 100) / 100;
+            total += qst + gst;
+        });
+        totalAmount.html(total.toFixed(2));
+    }
+
+    function recalculateTotalWithTax()
+    {
+        var totalAmount = $('#total-wtax-amount');
+
+        var amount = parseFloat($('#total-tax-amount').html()) + parseFloat($('#total-amount').html());
+        totalAmount.html(amount.toFixed(2));
+    }
 
 </script>
