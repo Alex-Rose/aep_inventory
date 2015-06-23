@@ -5,7 +5,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <?php echo Form::open('AdminOrder/save/'.$order->pk(), ['class' => 'form-horizontal', 'role' => 'form']); ?>
+        <?php echo Form::open('AdminOrder/save', ['class' => 'form-horizontal', 'role' => 'form']); ?>
         <div class="form-group">
             <label class="control-label col-lg-2">Client</label>
             <div class="col-lg-10" id="client-search">
@@ -60,6 +60,13 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Consigne</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-refund-amount"><?php echo '0.00';?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-lg-2">Total</label>
             <div class="col-lg-10">
                 <div class="form-text"><span id="total-wtax-amount"><?php echo '0.00';?></span> $</div>
@@ -77,6 +84,10 @@
             <div class="col-lg-offset-2 col-lg-4">
                 <?php echo Form::submit('save', 'Enregistrer', ['class' => 'form-control btn btn-primary']);?>
             </div>
+
+            <div class="col-lg-4">
+                <?php echo Form::submit('bill', 'Facturer', ['class' => 'form-control btn btn-warning', 'data-url' => URL::site('AdminOrder/bill')]);?>
+            </div>
         </div>
 
         <div class="form-group">
@@ -87,11 +98,26 @@
 </div>
 
 <?php echo Form::hidden('products-data', URL::site('AdminProduct/associative'));?>
+<?php echo Form::hidden('products-list', URL::site('AdminOrder/allItems/'.$order->pk()));?>
 <?php echo Form::hidden('GST', 0.05);?>
 <?php echo Form::hidden('QST', 0.0975);?>
 <?php echo Form::hidden('ID', $order->pk());?>
 
 <script>
+
+    var products = [];
+
+    $(document).ready(function(){
+        $.get($('input:hidden[name=products-data]').val(), null, function(value){
+            products = value;
+
+            $.get($('input:hidden[name=products-list]').val(), null, function(value){
+                $(value).each(function(i, item){
+                    addProduct(item.code, item.quantity);
+                })
+            });
+        });
+    });
 
     $.get($('#client-search .typeahead').attr('data-url'), null, function(value){
         var clients = new Bloodhound({
@@ -133,12 +159,9 @@
             });
     });
 
-    var products = [];
-    $.get($('input:hidden[name=products-data]').val(), null, function(value){
-        products = value;
-    });
 
-    function addProduct(){
+
+    function addProduct(productCode, amount){
         var row     = $(document.createElement('tr'));
         var code    = $(document.createElement('td'));
         var name    = $(document.createElement('td'));
@@ -151,8 +174,8 @@
         var price   = $(document.createElement('td'));
 
 
-        var product = products[$('input[name=product-search]').val().split('-')[0].trim()];
-        var newPrice = $('input[name=add-nb]').val() * parseFloat(product['price']);
+        var product = products[productCode];
+        var newPrice = amount * parseFloat(product['price']);
         code.html(product['code']);
         code.addClass('code');
         name.html(product['name']);
@@ -163,7 +186,7 @@
         qtyCol2.addClass('col-lg-2');
 
         qtyInput.addClass('form-control');
-        qtyInput.val($('input[name=add-nb]').val());
+        qtyInput.val(amount);
         qtyInput.attr('min', 0);
         qtyInput.attr('type', 'number');
         qtyInput.attr('name', 'qty');
@@ -201,7 +224,7 @@
     $('button[name=add]').click(function(e){
         e.preventDefault();
 
-        addProduct();
+        addProduct($('input[name=product-search]').val().split('-')[0].trim(), $('input[name=add-nb]').val());
     });
 
     $('input:submit[name=save]').click(function(e){
@@ -223,6 +246,22 @@
             data: { 'ID': id, 'client': client, 'delivered': delivered, 'products': JSON.stringify(products)}
         }).done(function(data) {
             $('input:hidden[name=ID]').val(data.ID);
+            $('#feedback').html(data.feedback);
+        });
+    });
+
+    $('input:submit[name=bill]').click(function(e) {
+        e.preventDefault();
+
+        var id = $('input:hidden[name=ID]').val();
+        var url = $(this).attr('data-url');
+
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: { 'id': id}
+        }).done(function(data) {
+            $('#feedback').html(data.feedback);
         });
     });
 
@@ -273,7 +312,8 @@
         totalAmount.html(total.toFixed(2));
 
         recalculateTax();
-        recalculateTotalWithTax();
+        recalculateRefund();
+        recalculateGrandTotal();
     }
 
     function recalculateTax(){
@@ -292,12 +332,24 @@
         totalAmount.html(total.toFixed(2));
     }
 
-    function recalculateTotalWithTax()
+    function recalculateRefund()
+    {
+        var totalAmount = $('#total-refund-amount');
+
+        var total = 0.0;
+        $('.code').each(function(i, item){
+            var amount = products[$(item).html()].refund;
+            var qty = $(item).parents('tr').find('.qty-selector').val();
+            total += amount * qty;
+        });
+        totalAmount.html(total.toFixed(2));
+    }
+
+    function recalculateGrandTotal()
     {
         var totalAmount = $('#total-wtax-amount');
 
-        var amount = parseFloat($('#total-tax-amount').html()) + parseFloat($('#total-amount').html());
+        var amount = parseFloat($('#total-tax-amount').html()) + parseFloat($('#total-amount').html()) + parseFloat($('#total-refund-amount').html());
         totalAmount.html(amount.toFixed(2));
     }
-
 </script>

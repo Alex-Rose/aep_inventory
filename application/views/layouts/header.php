@@ -254,7 +254,7 @@
                             <a href="<?php echo URL::site('inventory');?>"><i class="fa fa-table fa-fw"></i> Inventaire</a>
                         </li>
                         <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                            <a href="<?php echo URL::site('order');?>"><i class="fa fa-edit fa-fw"></i> Commandes</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

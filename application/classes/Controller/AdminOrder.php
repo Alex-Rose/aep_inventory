@@ -50,6 +50,39 @@ class Controller_AdminOrder extends Controller_Async
             $this->data['ID'] = $order->pk();
             $this->data['feedback'] = Helper_Alert::success('Commande enregistrée avec succès');
         }
+    }
 
+    public function action_allItems()
+    {
+        $id = $this->request->param('id');
+        $result = [];
+
+        $order = ORM::factory('Order', $id);
+
+        if ($order->loaded())
+        {
+            foreach ($order->items->find_all() as $item)
+            {
+                $i = [];
+                $i['code'] = $item->product->code;
+                $i['quantity'] = $item->quantity;
+
+                array_push($result, $i);
+            }
+        }
+
+        $this->data = $result;
+    }
+
+    public function action_bill()
+    {
+        $id = $this->request->post('id');
+
+        $order = ORM::factory('Order', $id);
+
+        if ($order->loaded())
+        {
+            $order->createInvoice();
+        }
     }
 }

@@ -6,4 +6,16 @@
         protected $_primary_key = 'ID';
 
         protected $_belongs_to 	= ['product' => ['model' => 'Product', 'foreign_key' => 'productID']];
+
+        public function __get($parameter)
+        {
+            if ($parameter == 'price')
+            {
+                return floatval(parent::__get($parameter));
+            }
+            else
+            {
+                return parent::__get($parameter);
+            }
+        }
     }

@@ -27,7 +27,7 @@
         {
             $id = $this->request->param('id');
 
-            $this->title = 'Mnodification d\'une commande';
+            $this->title = 'Modification d\'une commande';
             $this->order = ORM::factory('Order', $id);
             $this->content = View::factory('order_edit');
         }

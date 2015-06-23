@@ -13,7 +13,7 @@
         {
             if ($parameter == 'price')
             {
-                return $this->prices->order_by('created', 'DESC')->limit(1)->find()->price;
+                return $this->prices->order_by('created', 'DESC')->limit(1)->find();
             }
             else
             {

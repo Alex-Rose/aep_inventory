@@ -11,9 +11,9 @@
             <tr>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Client</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Sommaire</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Montant</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Livrée</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Date créée</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Montant</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Livrée</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Date créée</th>
             </tr>
             </thead>
             <tbody>
@@ -22,18 +22,8 @@
                 {
                     echo '<tr>';
                     echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> '.$order->client->name.'</td>';
-                    echo '<td>';
-                    foreach ($order->items->find_all() as $item)
-                    {
-                        echo '<li>';
-                        echo '<span class="badge primary">'.$item->quantity.'</span> ';
-                        echo $item->product->name;
-                        echo '</li>';
-                    }
-
-                    echo '</td>';
-
-                    echo '<td>'.round($order->getTotals()['total'], 2).' $</td>';
+                    echo '<td>Liste de produits</td>';
+                    echo '<td>'.$order->client->phone.'</td>';
                     echo '<td>'.Form::checkbox('delivered', null, (bool)$order->delivered).'</td>';
                     echo '<td> '.$order->created.'</td>';
                     echo '</tr>';
@@ -43,8 +33,6 @@
         </table>
     </div>
 </div>
-
-<?php echo HTML::anchor('order/create', 'Créer une nouvelle commande');?>
 
 <script>
     $(document).ready(function() {
