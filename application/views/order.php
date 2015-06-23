@@ -21,7 +21,7 @@
                 foreach ($orders as $order)
                 {
                     echo '<tr>';
-                    echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> '.$order->client->name.'</td>';
+                    echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('order/view/'.$order->pk()).'">'.$order->client->name.'</a></td>';
                     echo '<td>';
                     foreach ($order->items->find_all() as $item)
                     {
@@ -33,8 +33,8 @@
 
                     echo '</td>';
 
-                    echo '<td>'.round($order->getTotals()['total'], 2).' $</td>';
-                    echo '<td>'.Form::checkbox('delivered', null, (bool)$order->delivered).'</td>';
+                    echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
+                    echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
                     echo '<td> '.$order->created.'</td>';
                     echo '</tr>';
                 }

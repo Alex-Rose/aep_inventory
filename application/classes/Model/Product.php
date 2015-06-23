@@ -15,6 +15,29 @@
             {
                 return $this->prices->order_by('created', 'DESC')->limit(1)->find();
             }
+            else if ($parameter == 'priceWithTaxes')
+            {
+                $gstRate = floatval(Model_Parameter::getValue('GST_RATE'));
+                $qstRate = floatval(Model_Parameter::getValue('QST_RATE'));
+
+                $price = $this->price;
+
+                $total = $price->price;
+
+                if ($price->taxes == 'GST' || $price->taxes == 'BOTH')
+                {
+                    $total += $price->price * $gstRate;
+                }
+
+                if ($price->taxes == 'QST' || $price->taxes == 'BOTH')
+                {
+                    $total += $price->price * $qstRate;
+                }
+
+                $total += $price->refund;
+
+                return $total;
+            }
             else
             {
                 return parent::__get($parameter);

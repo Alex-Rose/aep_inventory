@@ -31,4 +31,13 @@
             $this->order = ORM::factory('Order', $id);
             $this->content = View::factory('order_edit');
         }
+
+        public function action_view()
+        {
+            $id = $this->request->param('id');
+
+            $this->title = 'Détails de la commande';
+            $this->order = ORM::factory('Order', $id);
+            $this->content = View::factory('order_detail');
+        }
     }

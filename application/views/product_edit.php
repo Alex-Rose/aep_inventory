@@ -97,6 +97,11 @@
 </div>
 
 <script>
+
+    var postCallback = function(data){
+
+    };
+
     $('input:submit[name=save]').click(postData);
 
 </script>

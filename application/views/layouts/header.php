@@ -257,13 +257,13 @@
                             <a href="<?php echo URL::site('order');?>"><i class="fa fa-edit fa-fw"></i> Commandes</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Paramètres<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
+                                    <a href="<?php echo URL::site('product/list');?>">Liste des produits</a>
                                 </li>
                                 <li>
-                                    <a href="buttons.html">Buttons</a>
+                                    <a href=<?php echo URL::site('product/add');?>>Ajouter un produit</a>
                                 </li>
                                 <li>
                                     <a href="notifications.html">Notifications</a>
