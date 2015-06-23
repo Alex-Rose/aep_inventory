@@ -39,4 +39,13 @@
             $this->client = ORM::factory('Client', $id);
             $this->content = View::factory('client_edit');
         }
+
+        public function action_details()
+        {
+            $id = $this->request->param('id');
+
+            $this->title = 'Compte client';
+            $this->client = ORM::factory('Client', $id);
+            $this->content = View::factory('client_details');
+        }
     }

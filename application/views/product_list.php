@@ -16,7 +16,9 @@
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Format de groupe</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Type de contenant</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Prix de vente</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Prix avec taxes</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Prix avec taxes
+                    <span data-toggle="tooltip" data-placement="top" title="Exclue la consigne">*</span>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -48,5 +50,9 @@
             responsive: true
         });
     });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
 </script>

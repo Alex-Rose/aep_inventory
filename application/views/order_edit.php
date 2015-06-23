@@ -69,7 +69,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-wtax-amount"><?php echo '0.00';?></span> $</div>
+                <div class="form-text"><span id="total-wtax-amount"><?php echo '0.00';?></span> <span data-toggle="tooltip" data-placement="top" title="Prix arrondi. Le prix réel peut varier légèrement">$</span></div>
             </div>
         </div>
 
@@ -117,6 +117,10 @@
                 })
             });
         });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     });
 
     $.get($('#client-search .typeahead').attr('data-url'), null, function(value){

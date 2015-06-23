@@ -34,9 +34,11 @@
                     $total += $price->price * $qstRate;
                 }
 
-                $total += $price->refund;
-
                 return $total;
+            }
+            else if ($parameter == 'priceWithTaxesAndRefund')
+            {
+                return $this->priceWithTaxes + $this->price->refund;
             }
             else
             {

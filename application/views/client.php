@@ -20,7 +20,7 @@
                 foreach ($clients as $client)
                 {
                     echo '<tr>';
-                    echo '<td><a href="'.URL::site('client/edit/'.$client->pk()).'"><i class="fa fa-edit"></i></a> '.$client->name.'</td>';
+                    echo '<td><a href="'.URL::site('client/edit/'.$client->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('client/details/'.$client->pk()).'">'.$client->name.'</a></td>';
                     echo '<td>'.$client->phone.'</td>';
                     echo '<td>'.$client->email.'</td>';
                     echo '<td> 0$ </td>';

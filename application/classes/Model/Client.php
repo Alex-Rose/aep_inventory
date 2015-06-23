@@ -4,4 +4,7 @@
     {
         protected $_table_name  = 'client';
         protected $_primary_key = 'ID';
+
+//        protected $_has_many 	= ['payments' => ['model' => 'Payment', 'foreign_key' => 'clientID']];
+        protected $_has_many 	= ['payments' => ['model' => 'Payment', 'through' => 'invoice', 'foreign_key' => 'clientID', 'far_key' => 'paymentID']];
     }
