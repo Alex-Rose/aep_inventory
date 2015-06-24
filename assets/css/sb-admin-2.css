@@ -364,3 +364,35 @@ table.product-table > tbody > tr > td:not(.qty){
 table.product-table input[name=qty]{
     width: 60px;
 }
+
+.label-as-badge{
+    border-radius: 1em;
+}
+
+@-webkit-keyframes focus-shadow {
+    0% {
+        box-shadow: none;
+    }
+    50% {
+        box-shadow: 0px 0px 10px #337ab7;
+    }
+    100% {
+        box-shadow: none;
+    }
+}
+
+@keyframes focus-shadow {
+    0% {
+        box-shadow: none;
+    }
+    50% {
+        box-shadow: 0px 0px 10px #337ab7;
+    }
+    100% {
+        box-shadow: none;
+    }
+}
+.focus-animated {
+    -webkit-animation:focus-shadow ease-in-out 0.25s 2;
+    animation:focus-shadow ease-in-out 0.25s 2;
+}

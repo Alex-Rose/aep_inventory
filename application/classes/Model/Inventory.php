@@ -2,8 +2,14 @@
 
     class Model_Inventory extends ORM
     {
-        protected $_table_name  = 'inventory';
+        protected $_table_name = 'inventory';
         protected $_primary_key = 'ID';
 
-        protected $_belongs_to 	= ['product' => ['model' => 'Product', 'foreign_key' => 'productID']];
+        protected $_belongs_to = ['product' => ['model' => 'Product', 'foreign_key' => 'productID']];
+
+
+        public static function checkStocks($productID)
+        {
+            return ORM::factory('Inventory')->where('productID', '=', $productID)->find()->quantity;
+        }
     }

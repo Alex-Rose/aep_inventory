@@ -35,7 +35,7 @@
 
                     echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
                     echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
-                    echo '<td> '.$order->created.'</td>';
+                    echo '<td> '.date('d-m-Y', strtotime($order->created)).'</td>';
                     echo '</tr>';
                 }
             ?>

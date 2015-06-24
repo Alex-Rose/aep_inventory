@@ -8,6 +8,7 @@
         protected $_belongs_to 	= ['client' => ['model' => 'Client', 'foreign_key' => 'clientID']];
 
         protected $_has_many 	= ['items' => ['model' => 'OrderItem', 'foreign_key' => 'orderID']];
+        protected $_has_one 	= ['invoice' => ['model' => 'Invoice', 'foreign_key' => 'orderID']];
 
         public function createInvoice()
         {
@@ -23,6 +24,7 @@
             $gst = 0.0;
             $qst = 0.0;
             $refund = 0.0;
+            $price = 0.0;
 
             $gstName = Model_Parameter::getValue('GST_NAME');
             $qstName = Model_Parameter::getValue('QST_NAME');
@@ -66,6 +68,7 @@
                 $gst    += $i->tax_1_amount;
                 $qst    += $i->tax_2_amount;
                 $refund += $i->refund;
+                $price  += $i->price;
             }
 
             $invoice->total         = round($total, 2);
@@ -74,6 +77,7 @@
             $invoice->tax_2_name    = $qstName;
             $invoice->tax_2_amount  = round($qst, 2);
             $invoice->refund        = round($refund, 2);
+            $invoice->price         = round($price, 2);
             $invoice->save();
 
             return $invoice;
@@ -114,5 +118,20 @@
                 'gst'   => $gst,
                 'refund'=> $refund
             ];
+        }
+
+        public function checkStocks()
+        {
+            foreach ($this->items->find_all() as $item)
+            {
+                $inventory = Model_Inventory::checkStocks($item->productID);
+
+                if ($inventory < $item->quantity)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
