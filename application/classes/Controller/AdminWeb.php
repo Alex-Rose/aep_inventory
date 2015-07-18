@@ -33,4 +33,33 @@
                 $this->data['feedback'] = Helper_Alert::danger('Requête invalide');
             }
         }
+
+        public function action_deleteUser()
+        {
+            $id = $this->request->param('id');
+            $user = ORM::factory('User', $id);
+            $this->data['id'] = $id;
+
+            if ($user->loaded())
+            {
+                Model_Log::Log('User deleted id:'.$user->pk().' email:'.$user->email.' by uid:'.Model_User::current()->pk(), 'TRACE');
+                $user->delete();
+                $this->data['success'] = true;
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('L\'utilisateur n\'existe pas');
+                $this->data['success'] = false;
+            }
+        }
+
+        public function action_adminCreate()
+        {
+            $this->action_createUser();
+
+            if ($this->data['success'] == true)
+            {
+                $this->data['feedback'] = Helper_Alert::success('Compte créé avec succès. L\'utilisateur recevra un courriel pour confirmer son compte.');
+            }
+        }
     }

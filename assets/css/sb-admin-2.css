@@ -393,6 +393,14 @@ table.product-table input[name=qty]{
     }
 }
 .focus-animated {
-    -webkit-animation:focus-shadow ease-in-out 0.25s 2;
-    animation:focus-shadow ease-in-out 0.25s 2;
+    -webkit-animation:focus-shadow ease-in-out 0.25s 3;
+    animation:focus-shadow ease-in-out 0.25s 3;
+}
+
+span.twitter-typeahead{
+    width: 100%;
+}
+
+#product-search span.twitter-typeahead{
+    height: 29px;
 }

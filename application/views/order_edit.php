@@ -18,10 +18,12 @@
             <div class="col-lg-10">
                 <div class="row">
                     <div class="col-lg-5" id="product-search">
-                        <?php echo Form::input('product-search', '', ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/allProducts')]);?>
-                        <i class="fa fa-times"></i>
+                        <div class="input-group" style="height: 29px;">
+                            <?php echo Form::input('product-search', '', ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/allProducts')]);?>
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        </div>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-1" data-toggle="tooltip" data-placement="top" title="Quantité">
                         <input name="add-nb" type="number" value="1" class="form-control" />
                     </div>
                     <div class="col-lg-1">
@@ -108,6 +110,9 @@
     var products = [];
 
     $(document).ready(function(){
+
+        $('[data-toggle="tooltip]').tooltip();
+
         $.get($('input:hidden[name=products-data]').val(), null, function(value){
             products = value;
 

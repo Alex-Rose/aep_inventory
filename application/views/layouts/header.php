@@ -266,7 +266,7 @@
                                     <a href=<?php echo URL::site('product/add');?>>Ajouter un produit</a>
                                 </li>
                                 <li>
-                                    <a href="notifications.html">Notifications</a>
+                                    <a href=<?php echo URL::site('user/list');?>>Gestion des utilisateurs</a>
                                 </li>
                                 <li>
                                     <a href="typography.html">Typography</a>

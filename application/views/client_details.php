@@ -90,7 +90,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            foreach ($client->orders->find_all() as $order)
+                            foreach ($client->orders->order_by('created', 'DESC')->find_all() as $order)
                             {
                                 echo '<tr>';
                                 echo '<td>';
@@ -186,6 +186,15 @@
 
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+
+        $('#dataTables-example').DataTable({
+            responsive: true,
+            order: [4, 'desc'],
+            "aoColumnDefs": [
+                { 'bSortable': false, 'aTargets': [ 1 ] }
+            ],
+            bFilter: false
+        });
     });
 
     $('.details').click(function(e){
