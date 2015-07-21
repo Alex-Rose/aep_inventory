@@ -207,9 +207,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo URL::site('user/edit');?>"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="<?php echo URL::site('user/edit');?>"><i class="fa fa-user fa-fw"></i> Mon profile</a>
                         </li>
-                        <li><a href="<?php echo URL::site('parameter/parameters/site');?>"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="<?php echo URL::site('parameter/parameters/site');?>"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="<?php echo URL::site('logout');?>"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
@@ -254,7 +254,10 @@
                             <a href="<?php echo URL::site('inventory');?>"><i class="fa fa-table fa-fw"></i> Inventaire</a>
                         </li>
                         <li>
-                            <a href="<?php echo URL::site('order');?>"><i class="fa fa-edit fa-fw"></i> Commandes</a>
+                            <a href="<?php echo URL::site('order');?>"><i class="fa fa-shopping-cart fa-fw"></i> Commandes</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo URL::site('invoice');?>"><i class="fa fa-edit fa-fw"></i> Factures</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Paramètres<span class="fa arrow"></span></a>
@@ -276,48 +279,6 @@
                                 </li>
                                 <li>
                                     <a href="grid.html">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

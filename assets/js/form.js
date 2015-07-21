@@ -8,7 +8,7 @@ function postData(e){
 
     var post = {};
     var form = $(this).closest('form');
-    var items = form.find('input:not(input:submit)');
+    var items = form.find('input:not(input:submit), select');
 
     for (var i = 0; i < items.length; i++)
     {

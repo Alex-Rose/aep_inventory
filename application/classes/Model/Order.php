@@ -78,6 +78,7 @@
             $invoice->tax_2_amount  = round($qst, 2);
             $invoice->refund        = round($refund, 2);
             $invoice->price         = round($price, 2);
+            $invoice->code          = (int)date("Y") - 1875 . $invoice->pk();
             $invoice->save();
 
             return $invoice;
