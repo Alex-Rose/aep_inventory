@@ -21,7 +21,7 @@
                     echo '<tr>';
                     echo '<td>'.$user->email.'</td>';
                     echo '<td>'.($user->activation == null ? 'Actif' : 'Inactif').'</td>';
-                    echo '<td><a href="'.URL::site('user/delete/'.$user->pk()).'"><i class="fa fa-times"></i> Supprimer</a></td>';
+                    echo '<td><a href="'.URL::site('parameter/user/delete/'.$user->pk()).'"><i class="fa fa-times"></i> Supprimer</a></td>';
                     echo '</tr>';
                 }
             ?>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('user/add', 'Ajouter un nouvel utilisateur');?>
+<?php echo HTML::anchor('parameter/user/add', 'Ajouter un nouvel utilisateur');?>
 
 <script>
     $(document).ready(function() {

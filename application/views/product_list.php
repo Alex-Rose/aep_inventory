@@ -26,7 +26,7 @@
                 foreach ($products as $product)
                 {
                     echo '<tr>';
-                    echo '<td><a href="'.URL::site('product/edit/'.$product->pk()).'"><i class="fa fa-edit"></i></a> '.$product->code.'</td>';
+                    echo '<td><a href="'.URL::site('parameter/product/edit/'.$product->pk()).'"><i class="fa fa-edit"></i></a> '.$product->code.'</td>';
                     echo '<td>'.$product->name.'</td>';
                     echo '<td>'.$product->brand.'</td>';
                     echo '<td>'.$product->format.'</td>';

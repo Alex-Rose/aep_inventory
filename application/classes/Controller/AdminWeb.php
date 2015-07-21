@@ -6,6 +6,7 @@
         public function before()
         {
             parent::before();
+            $this->ensureLoggedIn();
         }
 
         public function action_createUser()
@@ -61,5 +62,19 @@
             {
                 $this->data['feedback'] = Helper_Alert::success('Compte créé avec succès. L\'utilisateur recevra un courriel pour confirmer son compte.');
             }
+        }
+
+        public function action_changePassword()
+        {
+            $user = Model_User::current();
+            $password = $this->request->post('password');
+
+            if ($user->loaded() && $password != null)
+            {
+                $user->setPassword($password);
+                $this->data['success'] = true;
+                $this->data['feedback'] = Helper_Alert::success('Mot de passe changé avec succès');
+            }
+
         }
     }

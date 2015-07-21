@@ -783,6 +783,11 @@ class Kohana_Request implements HTTP_Request {
 		return isset($this->_params[$key]) ? $this->_params[$key] : $default;
 	}
 
+	public function set_param($key, $val)
+	{
+		$this->_params[$key] = $val;
+	}
+
 	/**
 	 * Sets and gets the referrer from the request.
 	 *

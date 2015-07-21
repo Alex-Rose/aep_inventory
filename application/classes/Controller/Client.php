@@ -19,9 +19,25 @@
         // For nav menu
         public function action_list()
         {
-            $this->title = 'Liste des clients';
-            $this->clients = ORM::factory('Client')->find_all();
-            $this->content = View::factory('client');
+            $id = $this->request->param('id');
+
+            if (strtolower($id) == 'details')
+            {
+                $this->request->set_param('id', $this->request->param('option'));
+                $this->action_details();
+            }
+            else if (strtolower($id) == 'edit')
+            {
+                $this->request->set_param('id', $this->request->param('option'));
+                $this->action_edit();
+            }
+            else
+            {
+                $this->title = 'Liste des clients';
+                $this->clients = ORM::factory('Client')->find_all();
+                $this->content = View::factory('client');
+            }
+
         }
 
         public function action_add()
