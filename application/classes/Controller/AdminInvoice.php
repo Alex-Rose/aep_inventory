@@ -39,4 +39,29 @@
             }
 
         }
+
+        public function action_unpay()
+        {
+            $id = $this->request->param('id');
+            $invoice = ORM::factory('Invoice', $id);
+
+            if ($invoice->loaded())
+            {
+                if ($invoice->payment->loaded())
+                {
+                    $invoice->payment->delete();
+                }
+
+                $invoice->paymentID = null;
+                $invoice->save();
+
+                $this->data['success'] = true;
+                $this->data['feedback'] = Helper_Alert::danger('Paiement supprimé');
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('Facture introuvable');
+            }
+
+        }
     }

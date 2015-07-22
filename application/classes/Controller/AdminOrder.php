@@ -85,4 +85,19 @@ class Controller_AdminOrder extends Controller_Async
             $order->createInvoice();
         }
     }
+
+    public function action_toggleDelivered()
+    {
+        $id = $this->request->param('id');
+
+        $order = ORM::factory('Order', $id);
+
+        if ($order->loaded())
+        {
+            $order->delivered = !(bool)$order->delivered;
+            $order->save();
+
+            $this->data['success'] = true;
+        }
+    }
 }

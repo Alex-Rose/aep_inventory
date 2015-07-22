@@ -274,12 +274,6 @@
                                 <li>
                                     <a href="<?php echo URL::site('parameter/parameters/site');?>">Paramètres du site</a>
                                 </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

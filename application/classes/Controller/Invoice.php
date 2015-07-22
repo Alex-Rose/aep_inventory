@@ -12,14 +12,14 @@
         public function action_index()
         {
             $this->title = 'Liste des factures';
-            $this->orders = ORM::factory('Order')->with('invoice')->where('orderID', 'IS NOT', null)->find_all();
+            $this->orders = ORM::factory('Order')->with('invoice')->where('orderID', 'IS NOT', null)->order_by('invoice.created', 'DESC')->find_all();
             $this->content = View::factory('invoice');
         }
 
         public function action_unpaid()
         {
             $this->title = 'Liste des factures impayées';
-            $this->orders = ORM::factory('Order')->with('invoice')->where('paymentID', 'IS NOT', null)->find_all();
+            $this->orders = ORM::factory('Order')->with('invoice')->where('paymentID', 'IS', null)->order_by('invoice.created', 'DESC')->find_all();
             $this->content = View::factory('invoice');
         }
 
@@ -29,6 +29,18 @@
 
             $this->title = 'Payer une facture';
             $this->invoice = ORM::factory('Invoice', $id);
+
+            if ($this->invoice->payment->loaded())
+            {
+                $this->amount = $this->invoice->payment->amount;
+                $this->method = $this->invoice->payment->method;
+            }
+            else
+            {
+                $this->amount = $this->invoice->total;
+                $this->method = 'cash';
+            }
+
             $this->content = View::factory('invoice_payment');
         }
 
