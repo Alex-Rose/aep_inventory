@@ -31,7 +31,7 @@
 <!--                </div>-->
 <!--                <div class="row">-->
 <!--                    <div class="col-sm-12">-->
-                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer products-table" id="dataTables-example">
                             <thead>
                                 <tr>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Code</th>
@@ -46,11 +46,12 @@
                                     echo '<tr>';
                                     echo '<td>'.$inv->product->code.'</td>';
                                     echo '<td>'.$inv->product->name.'</td>';
-                                    echo '<td><div style="display: flex;"><div class="qty" style="flex-grow: 1;">'.$inv->quantity.' </div>';
-                                    echo '<div style="align-self: flex-end">';
-                                    echo '<a class="add" href="'.URL::site('AdminInventory/add/'.$inv->pk()).'"><i class="fa fa-plus"></i></a> ';
-                                    echo '<a class="remove" href="'.URL::site('AdminInventory/remove/'.$inv->pk()).'"><i class="fa fa-minus"></i></a>';
-                                    echo '</div></div></td>';
+                                    echo '<td><input class="quantity" type="number" value="'.$inv->quantity.'" min="0" data-url="'.URL::site('AdminInventory/set/'.$inv->pk()).'"/></td>';
+                                    // echo '<td><div style="display: flex;"><div class="qty" style="flex-grow: 1;">'.$inv->quantity.' </div>';
+                                    // echo '<div style="align-self: flex-end">';
+                                    // echo '<a class="add" href="'.URL::site('AdminInventory/add/'.$inv->pk()).'"><i class="fa fa-plus"></i></a> ';
+                                    // echo '<a class="remove" href="'.URL::site('AdminInventory/remove/'.$inv->pk()).'"><i class="fa fa-minus"></i></a>';
+                                    // echo '</div></div></td>';
                                     echo '</tr>';
                                 }
                             ?>
@@ -70,36 +71,41 @@
 </div>
 
 <div class="row">
-    <?php echo Form::open('AdminInventory/new', ['role' => 'form']);?>
-    <div class="col-lg-4">
-        <div class="input-group">
-            <input class="search form-control" id="prod-search" type="text" data-url="<?php echo URL::site('AdminProduct/search');?>">
+    <div class="col-lg-5" id="product-search">
+        <div class="input-group" style="height: 29px;">
+            <?php echo Form::input('product-search', '', ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/allProducts')]);?>
             <span class="input-group-addon"><i class="fa fa-search"></i></span>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <ul id="search-results" class="list-group">
-
-        </ul>
+    <div class="col-lg-2" data-toggle="tooltip" data-placement="top" title="Quantité">
+        <input name="add-nb" type="number" value="1" class="form-control" />
+    </div>
+    <div class="col-lg-1">
+        <button name="add-new" class="btn btn-success add-new" data-url="<?php echo URL::site('AdminInventory/AddNew');?>"><i class="fa fa-plus"></i></button>
     </div>
 </div>
 
-    <li id="result-model" hidden>
-        <div class="row">
-            <div class="col-lg-1"><button class="btn btn-default">Ajouter</button></div>
-            <div class="col-lg-2 code" style="margin-top: 7px;"></div>
-            <div class="col-lg-8 name" style="margin-top: 7px;"></div>
-            <div class="col-lg-1"><input type="number" value="1" class="addQty" style="width: 36px"></div>
-        </div>
-    </li>
+<tr id="row-model" hidden>
+    <td class="code"></td>
+    <td class="name"></td>
+    <td class="quantity"></td>
+</tr>
+
+<?php echo Form::hidden('products-data', URL::site('AdminProduct/associative'));?>
 
 <script>
+    var products = [];
+
+    $.get($('input:hidden[name=products-data]').val(), null, function(value){
+        products = value;
+    });
+
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-            responsive: true
+            responsive: true,
+            "aoColumnDefs": [
+              { 'bSortable': false, 'aTargets': [ 2 ] }
+           ]
         });
     });
 
@@ -131,37 +137,118 @@
         div.html((nb > 0 ? nb - 1: 0));
     });
 
-    var searchTimeout = undefined;
+    $(document).on('change', 'input.quantity', function(e){
+        var url = $(this).attr('data-url');
+        var val = $(this).val();
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {value: val}
+        });
+    });
 
-    $('#prod-search').keyup(function(e){
-        if (e.keyCode == 13 || e.which == 13){
+    // var searchTimeout = undefined;
+
+    $.get($('#product-search .typeahead').attr('data-url'), null, function(value){
+        var products = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            // url points to a json file that contains an array of country names, see
+            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+            local: value
+        });
+
+        $('#product-search .typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'products',
+                source: products
+            });
+    });
+
+
+    $('input.typeahead').keypress(function (e) {
+        if (e.which == 13) {
             e.preventDefault();
+            $('.tt-suggestion:first-child').trigger('click');
         }
+    });
+
+    $('.add-new').click(function(e){
+        e.preventDefault();
 
         var url = $(this).attr('data-url');
-        url += '/' + $(this).val();
+        var productCode = $('input[name=product-search]').val().split('-')[0].trim();
+        var product = products[productCode];
+        var id = product['ID'];
+        var qty = $('input[name=add-nb]').val();
 
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function(){
-            $.ajax({
-                type: 'GET',
-                url: url
-            }).done(function(data){
-                var model = $('#result-model');
-                var results = $('#search-results');
-                results.html('');
-                $.each(data.results, function(i, item){
-                    var r = $(document.createElement('li'));
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {id: id, quantity: qty}
+        }).done(function (data){
+            if (data.success){
+                    var table = $('table.products-table > tbody');
+                if (data.dup){
+                    var qty = table.find('td:contains('+data.code+')').parents('tr').find('.quantity');
+                    qty.val(data.quantity);
+                }else{
+                    var model = $('#row-model');
+                    var r = $(document.createElement('tr'));
                     r.html(model.html());
-                    r.addClass('list-group-item');
-                    r.find('.name').html(item.name);
-                    r.find('.code').html(item.code);
-                    results.append(r);
-                });
-            });
-        }, 400);
-
+                    r.find('.name').html(data.name);
+                    r.find('.code').html(data.code);
+                    r.find('.quantity').html(data.quantity);
+                    table.append(r);
+                    location.reload();
+                }
+            }
+        });
     });
+
+    function findByName(element, index, array) {
+
+      var start = 2;
+      while (start <= Math.sqrt(element)) {
+        if (element % start++ < 1) {
+          return false;
+        }
+      }
+      return element > 1;
+    }
+    // $('#prod-search').keyup(function(e){
+    //     if (e.keyCode == 13 || e.which == 13){
+    //         e.preventDefault();
+    //     }
+    //
+    //     var url = $(this).attr('data-url');
+    //     url += '/' + $(this).val();
+    //
+    //     clearTimeout(searchTimeout);
+    //     searchTimeout = setTimeout(function(){
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: url
+    //         }).done(function(data){
+    //             var model = $('#result-model');
+    //             var results = $('#search-results');
+    //             results.html('');
+    //             $.each(data.results, function(i, item){
+    //                 var r = $(document.createElement('li'));
+    //                 r.html(model.html());
+    //                 r.addClass('list-group-item');
+    //                 r.find('.name').html(item.name);
+    //                 r.find('.code').html(item.code);
+    //                 results.append(r);
+    //             });
+    //         });
+    //     }, 400);
+    //
+    // });
 
 
 </script>

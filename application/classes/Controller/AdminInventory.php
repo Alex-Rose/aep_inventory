@@ -47,6 +47,68 @@
 
             }
         }
+
+        public function action_set()
+        {
+            $id = $this->request->param('id');
+            $val = $this->request->post('value');
+
+            $inv = ORM::factory('Inventory', $id);
+
+            if ($inv->loaded())
+            {
+                $inv->quantity = $val;
+
+                if ($inv->quantity < 0)
+                {
+                    $inv->quantity = 0;
+                }
+
+                $inv->save();
+
+                $this->data['succes'] = true;
+                $this->data['quantity'] = $inv->quantity;
+
+            }
+        }
+
+        public function action_addNew()
+        {
+            $id = $this->request->post('id');
+            $qty = $this->request->post('quantity');
+
+            $product = ORM::factory('Product', $id);
+
+            if ($product->loaded())
+            {
+                $inventory = ORM::factory('Inventory')->where('productID', '=', $id)->find();
+
+                $dup = false;
+
+                if (!$inventory->loaded())
+                {
+                    $inventory->productID = $id;
+                    $inventory->quantity = 0;
+                }
+                else
+                {
+                    $dup = true;
+                }
+
+                $inventory->quantity += $qty;
+                $inventory->save();
+
+                $this->data['success'] = true;
+                $this->data['name'] = $product->name;
+                $this->data['code'] = $product->code;
+                $this->data['quantity'] = $inventory->quantity;
+                $this->data['dup'] = $dup;
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('Le produit n\'existe pas');
+            }
+        }
 //        public function action_save()
 //        {
 //            $id = $this->request->param('id');
