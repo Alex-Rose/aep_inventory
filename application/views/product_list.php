@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('product/add', 'Ajouter un nouveau produit');?>
+<?php echo HTML::anchor('product/add', 'Ajouter un nouveau produit', ['class' => 'btn btn-primary']);?>
 
 <script>
     $(document).ready(function() {

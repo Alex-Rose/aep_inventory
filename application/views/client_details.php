@@ -124,7 +124,7 @@
                                     echo '<div class="label label-success" title="La commande est payée et a été livrée" '.$tooltip.'><i class="fa fa-check"></i> Livré</div>';
                                 }
                                 echo '</td>';
-                                echo '<td>';
+                                echo '<td><ul class="no_deco">';
                                 foreach ($order->items->find_all() as $item)
                                 {
                                     echo '<li>';
@@ -132,7 +132,7 @@
                                     echo $item->product->name;
                                     echo '</li>';
                                 }
-                                echo '</td>';
+                                echo '</ul></td>';
                                 $totals = $order->getTotals();
                                 echo '<td>'.number_format(round($totals['total'], 2), 2).' $</td>';
                                 echo '<td>'.number_format(round($totals['refund'], 2), 2).' $</td>';

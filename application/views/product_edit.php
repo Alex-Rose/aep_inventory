@@ -58,14 +58,20 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Prix coûtant</label>
             <div class="col-lg-10">
-                <?php echo Form::input('cost', $price->cost, ['class' => 'form-control']);?>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <?php echo Form::input('cost', $price->cost, ['class' => 'form-control']);?>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Prix de vente</label>
             <div class="col-lg-10">
-                <?php echo Form::input('price', $price->price, ['class' => 'form-control']);?>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <?php echo Form::input('price', $price->price, ['class' => 'form-control']);?>
+                </div>
             </div>
         </div>
 
@@ -79,7 +85,10 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Consigne Québec</label>
             <div class="col-lg-10">
-                <?php echo Form::input('refund', $price->refund, ['class' => 'form-control']);?>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <?php echo Form::input('refund', $price->refund, ['class' => 'form-control']);?>
+                </div>
             </div>
         </div>
 

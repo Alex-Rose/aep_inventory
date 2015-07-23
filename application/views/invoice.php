@@ -22,7 +22,15 @@
                 {
                     echo '<tr>';
                     echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> '.$order->client->name.'</td>';
-                    echo '<td>Liste de produits</td>';
+                    echo '<td><ul class="no_deco">';
+                    foreach ($order->invoice->items->find_all() as $item)
+                    {
+                        echo '<li>';
+                        echo '<span class="label label-info">'.$item->quantity.'</span> ';
+                        echo $item->product->name;
+                        echo '</li>';
+                    }
+                    echo '</li></td>';
                     echo '<td>'.$order->client->phone.'</td>';
                     echo '<td>';
                     $class = $order->delivered ? 'btn-success active' : 'btn-default';

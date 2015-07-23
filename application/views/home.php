@@ -97,7 +97,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Commandes récentes
@@ -121,16 +121,16 @@
                                         {
                                             echo '<tr>';
                                             echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('order/view/'.$order->pk()).'">'.$order->client->name.'</a></td>';
-                                            echo '<td>';
+                                            echo '<td><ul class="no_deco">';
                                             foreach ($order->items->find_all() as $item)
                                             {
                                                 echo '<li>';
-                                                echo '<span class="badge primary">'.$item->quantity.'</span> ';
+                                                echo '<span class="label label-info">'.$item->quantity.'</span> ';
                                                 echo $item->product->name;
                                                 echo '</li>';
                                             }
 
-                                            echo '</td>';
+                                            echo '</ul></td>';
 
                                             echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
                                             echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
@@ -146,6 +146,22 @@
                     <!-- /.panel -->
 
                 </div>
-                <!-- /.col-lg-4 -->
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-star-o fa-fw"></i> Accès rapide
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-12">
+
+                                <?php echo HTML::anchor('order/create', 'Créer une commande', ['class' => 'btn btn-info btn-xl btn-block']);?>
+                                <?php echo HTML::anchor('client/list', 'Liste des clients', ['class' => 'btn btn-info btn-xl btn-block']);?>
+                                <?php echo HTML::anchor('inventory', 'Voir l\'inventaire', ['class' => 'btn btn-default btn-xl btn-block']);?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.row -->

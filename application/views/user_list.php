@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('parameter/user/add', 'Ajouter un nouvel utilisateur');?>
+<?php echo HTML::anchor('parameter/user/add', 'Ajouter un nouvel utilisateur', ['class' => 'btn btn-primary']);?>
 
 <script>
     $(document).ready(function() {

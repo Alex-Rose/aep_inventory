@@ -23,16 +23,16 @@
                 {
                     echo '<tr>';
                     echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('order/view/'.$order->pk()).'">'.$order->client->name.'</a></td>';
-                    echo '<td>';
+                    echo '<td><ul class="no_deco">';
                     foreach ($order->items->find_all() as $item)
                     {
                         echo '<li>';
-                        echo '<span class="badge primary">'.$item->quantity.'</span> ';
+                        echo '<span class="label label-info">'.$item->quantity.'</span> ';
                         echo $item->product->name;
                         echo '</li>';
                     }
 
-                    echo '</td>';
+                    echo '</ul></td>';
 
                     echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
                     echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('order/create', 'Créer une nouvelle commande');?>
+<?php echo HTML::anchor('order/create', 'Créer une nouvelle commande', ['class' => 'btn btn-primary']);?>
 
 <script>
     $(document).ready(function() {
