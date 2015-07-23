@@ -44,4 +44,13 @@
             $this->content = View::factory('invoice_payment');
         }
 
+        public function action_view()
+        {
+            $id = $this->request->param('id');
+
+            $this->title = 'Détails de la facture';
+            $this->invoice = ORM::factory('Invoice', $id);
+            $this->content = View::factory('invoice_detail');
+        }
+
     }

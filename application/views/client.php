@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('client/add', 'Ajouter un nouveau client');?>
+<?php echo HTML::anchor('client/add', 'Ajouter un nouveau client', ['class' => 'btn btn-primary']);?>
 
 <script>
     $(document).ready(function() {

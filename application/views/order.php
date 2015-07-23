@@ -13,6 +13,7 @@
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Sommaire</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Montant</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Livrée</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;"># Commande</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Date créée</th>
             </tr>
             </thead>
@@ -35,6 +36,12 @@
 
                     echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
                     echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
+                    echo '<td># '.$order->pk();
+                    if ($order->invoice->loaded())
+                    {
+                        echo ' - facture '. HTML::anchor('invoice/view/'.$order->invoice->pk(), '#'.$order->invoice->code);
+                    }
+                    echo '</td>';
                     echo '<td> '.date('d-m-Y', strtotime($order->created)).'</td>';
                     echo '</tr>';
                 }
