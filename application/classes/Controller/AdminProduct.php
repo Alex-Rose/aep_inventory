@@ -46,7 +46,7 @@ class Controller_AdminProduct extends Controller_Async
         $price->save();
 
         $this->data['success'] = true;
-        $this->data['feedback'] = 'Enregistrement reussi';
+        $this->data['feedback'] = Helper_Alert::success('Enregistrement reussi');
     }
 
     public function action_search()

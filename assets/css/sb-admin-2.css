@@ -408,3 +408,7 @@ span.twitter-typeahead{
 ul.no_deco{
     list-style: none;
 }
+
+a.no_deco{
+    text-decoration: none;
+}

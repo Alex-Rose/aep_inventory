@@ -156,7 +156,7 @@
                             <div class="col-lg-12">
 
                                 <?php echo HTML::anchor('order/create', 'Créer une commande', ['class' => 'btn btn-info btn-xl btn-block']);?>
-                                <?php echo HTML::anchor('client/list', 'Liste des clients', ['class' => 'btn btn-info btn-xl btn-block']);?>
+                                <?php echo HTML::anchor('client/list', 'Liste des clients', ['class' => 'btn btn-default btn-xl btn-block']);?>
                                 <?php echo HTML::anchor('inventory', 'Voir l\'inventaire', ['class' => 'btn btn-default btn-xl btn-block']);?>
 
                             </div>

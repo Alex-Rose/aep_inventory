@@ -83,6 +83,13 @@ class Controller_AdminOrder extends Controller_Async
         if ($order->loaded())
         {
             $order->createInvoice();
+
+            $this->data['success'] = true;
+            $this->data['feedback'] = Helper_Alert::success('La commande a été facturée');
+        }
+        else
+        {
+            $this->data['feedback'] = Helper_Alert::danger('Commande introuvable');
         }
     }
 
@@ -98,6 +105,7 @@ class Controller_AdminOrder extends Controller_Async
             $order->save();
 
             $this->data['success'] = true;
+            $this->data['feedback'] = Helper_Alert::success('La commande a été livrée');
         }
     }
 }

@@ -27,9 +27,19 @@
         {
             $id = $this->request->param('id');
 
-            $this->title = 'Modification d\'une commande';
             $this->order = ORM::factory('Order', $id);
-            $this->content = View::factory('order_edit');
+
+            if (!$this->order->isPaid())
+            {
+                $this->title = 'Modification d\'une commande';
+                $this->content = View::factory('order_edit');
+            }
+            else
+            {
+                $this->title = 'Détails de la commande';
+                $this->content = View::factory('order_detail');
+                $this->comment = Helper_Alert::warning('La commande à été payée et ne peut être modifiée. <br/>Pour modifier la commande, veuillez d\'abord annuler le paiement.');
+            }
         }
 
         public function action_view()

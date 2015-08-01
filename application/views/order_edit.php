@@ -83,13 +83,20 @@
         </div>
 
         <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-4">
+            <div class="col-lg-offset-2 col-lg-3">
                 <?php echo Form::submit('save', 'Enregistrer', ['class' => 'form-control btn btn-primary']);?>
             </div>
 
-            <div class="col-lg-4">
-                <?php echo Form::submit('bill', 'Facturer', ['class' => 'form-control btn btn-warning', 'data-url' => URL::site('AdminOrder/bill')]);?>
-            </div>
+            <?php if (!$order->invoice->loaded()){ ?>
+                <div class="col-lg-3">
+                    <?php echo Form::submit('bill', 'Facturer', ['class' => 'form-control btn btn-success', 'data-url' => URL::site('AdminOrder/bill')]);?>
+                </div>
+            <?php } else { ?>
+                <div class="col-lg-3">
+                    <?php echo HTML::anchor('invoice/view/'.$order->invoice->pk(), 'Voir la facture', ['class' => 'form-control btn btn-default']);?>
+                </div>
+            <?php } ?>
+
         </div>
 
         <div class="form-group">

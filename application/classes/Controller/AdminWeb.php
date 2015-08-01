@@ -20,7 +20,7 @@
                 {
                     $user = ORM::factory('User')->where('email', '=', $email)->find();
                     $user->sendConfirmationLink();
-                    
+
                     $this->data['feedback'] = Helper_Alert::success('Compte créé avec succès');
                     $this->data['success'] = true;
                 }
@@ -46,6 +46,7 @@
                 Model_Log::Log('User deleted id:'.$user->pk().' email:'.$user->email.' by uid:'.Model_User::current()->pk(), 'TRACE');
                 $user->delete();
                 $this->data['success'] = true;
+                $this->data['feedback'] = Helper_Alert::success('L\'utilisateur à été supprimé');
             }
             else
             {
@@ -74,6 +75,10 @@
                 $user->setPassword($password);
                 $this->data['success'] = true;
                 $this->data['feedback'] = Helper_Alert::success('Mot de passe changé avec succès');
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('Le mot de passe ne peut être vide');
             }
 
         }

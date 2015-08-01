@@ -77,9 +77,11 @@
             <div class="col-lg-offset-2 col-lg-3">
                 <?php echo Form::submit('save', 'Enregistrer', ['class' => 'form-control btn btn-primary']);?>
             </div>
-            <div class="col-lg-3">
-                <?php echo Form::submit('delete', 'Supprimer le paiement', ['class' => 'form-control btn btn-danger', 'data-url' => URL::site('AdminInvoice/unpay/'.$invoice->pk())]);?>
-            </div>
+            <?php if ($invoice->payment->loaded()){ ?>
+                <div class="col-lg-3">
+                    <?php echo Form::submit('delete', 'Supprimer le paiement', ['class' => 'form-control btn btn-danger', 'data-url' => URL::site('AdminInvoice/unpay/'.$invoice->pk())]);?>
+                </div>
+            <?php } ?>
         </div>
 
         <div class="form-group">

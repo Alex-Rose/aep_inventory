@@ -135,4 +135,9 @@
 
             return true;
         }
+
+        public function isPaid()
+        {
+            return $this->invoice->loaded() && $this->invoice->payment->loaded();
+        }
     }

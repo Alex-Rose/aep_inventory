@@ -21,7 +21,7 @@
                     echo '<tr>';
                     echo '<td>'.$user->email.'</td>';
                     echo '<td>'.($user->activation == null ? 'Actif' : 'Inactif').'</td>';
-                    echo '<td><a href="'.URL::site('parameter/user/delete/'.$user->pk()).'"><i class="fa fa-times"></i> Supprimer</a></td>';
+                    echo '<td><a href="'.URL::site('parameter/user/delete/'.$user->pk()).'" class="no_deco"><span class="label label-danger"><i class="fa fa-times"></i> Supprimer</span></a></td>';
                     echo '</tr>';
                 }
             ?>

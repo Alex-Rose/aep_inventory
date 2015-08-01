@@ -81,13 +81,59 @@
         </div>
 
         <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-4">
+                <?php if (isset($comment)) echo $comment; ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-8">
+                <?php
+                    if (!$order->isPaid())
+                    {
+                        echo '<div class="col-lg-4">';
+                        echo HTML::anchor('order/edit/'.$order->pk(), 'Modifider la commande', ['class' => 'btn btn-primary btn-block']);
+                        echo '</div>';
+                    }
+                ?>
+                <div class="col-lg-4">
+                    <?php
+                        if (!$order->invoice->loaded())
+                        {
+                            echo Form::submit('bill', 'Facturer', ['class' => 'form-control btn btn-success', 'data-url' => URL::site('AdminOrder/bill')]);
+                        }
+                        else
+                        {
+                            echo HTML::anchor('invoice/view/'.$order->invoice->pk(), 'Voir la facture', ['class' => 'form-control btn btn-default']);
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-lg-offset-2 col-lg-4" id="feedback">
             </div>
         </div>
     </div>
 </div>
 
+<?php echo Form::hidden('ID', $order->pk());?>
 
 <script>
+    $('input:submit[name=bill]').click(function(e) {
+        e.preventDefault();
+
+        var id = $('input:hidden[name=ID]').val();
+        var url = $(this).attr('data-url');
+
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: { 'id': id}
+        }).done(function(data) {
+            $('#feedback').html(data.feedback);
+        });
+    });
 
 </script>
