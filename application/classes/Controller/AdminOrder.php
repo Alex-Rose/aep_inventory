@@ -46,9 +46,19 @@ class Controller_AdminOrder extends Controller_Async
                 }
             }
 
+            if ($order->invoice->loaded() && $order->invoice->paymentID == null)
+            {
+                $order->invoice->delete();
+                $order->createInvoice();
+            }
+
             $this->data['success'] = true;
             $this->data['ID'] = $order->pk();
             $this->data['feedback'] = Helper_Alert::success('Commande enregistrée avec succès');
+        }
+        else
+        {
+            $this->data['feedback'] = Helper_Alert::danger('Le client n\'existe pas');
         }
     }
 

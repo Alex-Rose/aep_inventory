@@ -10,4 +10,16 @@
                                    'payment' => ['model' => 'Payment', 'foreign_key' => 'paymentID']];
 
         protected $_has_many 	= ['items' => ['model' => 'InvoiceItem', 'foreign_key' => 'invoiceID']];
+
+        public function delete()
+        {
+            $items = $this->items->find_all();
+
+            foreach ($items as $item)
+            {
+                $item->delete();
+            }
+
+            parent::delete();
+        }
     }

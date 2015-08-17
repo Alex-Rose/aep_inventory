@@ -93,11 +93,16 @@
                             foreach ($client->invoices->order_by('created', 'DESC')->find_all() as $invoice)
                             {
                                 echo '<tr>';
-                                echo '<td>';
                                 $billed = $invoice->loaded();
                                 $paid = $invoice->loaded() && $invoice->paymentID != null;
                                 $instock = $invoice->order->checkStocks();
                                 $tooltip = 'data-toggle="tooltip" data-placement="top"';
+
+                                echo '<td>';
+                                echo '<a class="no_deco" href="'.URL::site('invoice/view/'.$invoice->pk()).'">';
+                                echo '<div class="label label-info" title="Voir la facture" '.$tooltip.'># '.$invoice->code.'</div>';
+                                echo '</a><br/>';
+
                                 if (!$billed)
                                 {
                                     echo '<a href="'.URL::site('order/view/'.$invoice->order->pk()).'" class="no_deco">';
@@ -202,11 +207,15 @@
                                 }
 
                                 echo '<tr>';
-                                echo '<td>';
-
                                 $paid = $order->invoice->loaded() && $order->invoice->paymentID != null;
                                 $instock = $order->checkStocks();
                                 $tooltip = 'data-toggle="tooltip" data-placement="top"';
+
+                                echo '<td>';
+                                echo '<a class="no_deco" href="'.URL::site('order/view/'.$order->pk()).'">';
+                                echo '<div class="label label-info" title="Voir la commande" '.$tooltip.'># '.$order->pk().'</div>';
+                                echo '</a><br/>';
+
                                 if (!$billed)
                                 {
                                     echo '<a href="'.URL::site('order/view/'.$order->pk()).'" class="no_deco">';

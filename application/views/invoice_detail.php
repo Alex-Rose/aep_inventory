@@ -14,6 +14,13 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Commande</label>
+            <div class="col-lg-10" id="client-search">
+                <div class="form-text"><a href="<?php echo URL::site('order/view/'.$invoice->order->pk())?>"># <?php echo $invoice->order->pk() ?></a></div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-lg-2">Produits</label>
             <div class="col-lg-10">
                 <div class="row" style="padding-top: 12px;">

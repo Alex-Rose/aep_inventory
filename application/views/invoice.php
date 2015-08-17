@@ -13,6 +13,7 @@
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Sommaire</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Montant</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Action</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;"># Facture</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Date créée</th>
             </tr>
             </thead>
@@ -52,6 +53,7 @@
                     echo '<a href="'.URL::site('invoice/pay/'.$order->invoice->pk()).'" class="paid btn btn-sm '.$class.'" title="'.$tooltip.'"><i class="fa fa-usd"></i></a>';
 
                     echo '</td>';
+                    echo '<td><a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'"># '.$order->invoice->code.'</a></td>';
                     echo '<td> '.$order->invoice->created.'</td>';
                     echo '</tr>';
                 }

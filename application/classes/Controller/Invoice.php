@@ -27,8 +27,8 @@
         {
             $id = $this->request->param('id');
 
-            $this->title = 'Payer une facture';
             $this->invoice = ORM::factory('Invoice', $id);
+            $this->title = 'Payer la facture # '.$this->invoice->code;
 
             if ($this->invoice->payment->loaded())
             {
@@ -48,8 +48,8 @@
         {
             $id = $this->request->param('id');
 
-            $this->title = 'Détails de la facture';
             $this->invoice = ORM::factory('Invoice', $id);
+            $this->title = 'Détails de la facture # '.$this->invoice->code;
             $this->content = View::factory('invoice_detail');
         }
 

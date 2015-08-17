@@ -31,7 +31,7 @@
 
             if (!$this->order->isPaid())
             {
-                $this->title = 'Modification d\'une commande';
+                $this->title = 'Modification de la commande';
                 $this->content = View::factory('order_edit');
             }
             else

@@ -140,4 +140,16 @@
         {
             return $this->invoice->loaded() && $this->invoice->payment->loaded();
         }
+
+        public function delete()
+        {
+            $items = $this->items->find_all();
+
+            foreach ($items as $item)
+            {
+                $item->delete();
+            }
+
+            parent::delete();
+        }
     }
