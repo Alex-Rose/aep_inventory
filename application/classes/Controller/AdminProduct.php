@@ -122,4 +122,18 @@ class Controller_AdminProduct extends Controller_Async
 
         $this->data = $result;
     }
+
+    public function action_formats()
+    {
+        $sQuery = 'SELECT DISTINCT(format) FROM product';
+        $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
+
+        $results = [];
+        foreach($dQuery as $t)
+        {
+            array_push($results, $t['format']);
+        }
+
+        $this->data = $results;
+    }
 }

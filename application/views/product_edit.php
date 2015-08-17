@@ -29,8 +29,8 @@
 
         <div class="form-group">
             <label class="control-label col-lg-2">Format</label>
-            <div class="col-lg-10">
-                <?php echo Form::input('format', $product->format, ['class' => 'form-control']);?>
+            <div class="col-lg-10" id="format-search">
+                <?php echo Form::input('format', $product->format, ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/formats')]);?>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <?php echo Form::input('cost', $price->cost, ['class' => 'form-control']);?>
+                    <?php echo Form::input('cost', number_format($price->cost, 2), ['class' => 'form-control']);?>
                 </div>
             </div>
         </div>
@@ -70,15 +70,15 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <?php echo Form::input('price', $price->price, ['class' => 'form-control']);?>
+                    <?php echo Form::input('price', number_format($price->price, 2), ['class' => 'form-control']);?>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Taxes</label>
-            <div class="col-lg-10">
-                <?php echo Form::input('taxes', $price->taxes, ['class' => 'form-control']);?>
+            <div class="col-lg-2">
+                <?php echo Form::select('taxes', ['GST' => 'TPS', 'QST' => 'TVQ', 'BOTH' => 'TPS + TVQ'], $price->taxes, ['class' => 'form-control']);?>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
             <div class="col-lg-10">
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <?php echo Form::input('refund', $price->refund, ['class' => 'form-control']);?>
+                    <?php echo Form::input('refund', number_format($price->refund, 2), ['class' => 'form-control']);?>
                 </div>
             </div>
         </div>
@@ -107,9 +107,25 @@
 
 <script>
 
-    var postCallback = function(data){
+    $.get($('#format-search .typeahead').attr('data-url'), null, function(value){
+        var formats = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            // url points to a json file that contains an array of country names, see
+            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+            local: value
+        });
 
-    };
+        $('#format-search .typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'formats',
+                source: formats
+            });
+    });
 
     $('input:submit[name=save]').click(postData);
 
