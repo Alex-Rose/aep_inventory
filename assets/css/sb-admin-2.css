@@ -404,3 +404,7 @@ span.twitter-typeahead{
 #product-search span.twitter-typeahead{
     height: 29px;
 }
+
+#dataTables-invoiceList a.btn{
+    width: 34px;
+}

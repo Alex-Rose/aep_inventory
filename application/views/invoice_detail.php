@@ -88,6 +88,12 @@
         </div>
 
         <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-2">
+                <a href="<?php echo URL::site('invoice/print/'.$invoice->pk());?>" target="_blank" class="btn btn-success">Imprimer</a>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-lg-offset-2 col-lg-4" id="feedback">
             </div>
         </div>

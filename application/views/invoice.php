@@ -6,15 +6,15 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
+        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-invoiceList">
             <thead>
             <tr>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Client</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Sommaire</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Montant</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Action</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;"># Facture</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Date créée</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;">Client</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;">Sommaire</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;">Montant</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;">Action</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;"># Facture</th>
+                <th aria-controls="dataTables-invoiceList" rowspan="1" colspan="1" style="width: 100px;">Date créée</th>
             </tr>
             </thead>
             <tbody>
@@ -22,7 +22,9 @@
                 foreach ($orders as $order)
                 {
                     echo '<tr>';
-                    echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> '.$order->client->name.'</td>';
+                    echo '<td>';
+//                    echo '<a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> ';
+                    echo $order->client->name.'</td>';
                     echo '<td><ul class="no_deco">';
                     foreach ($order->invoice->items->find_all() as $item)
                     {
@@ -52,6 +54,9 @@
                     $tooltip = $order->invoice->paymentID ? 'Payée' : 'Impayée';
                     echo '<a href="'.URL::site('invoice/pay/'.$order->invoice->pk()).'" class="paid btn btn-sm '.$class.'" title="'.$tooltip.'"><i class="fa fa-usd"></i></a>';
 
+                    echo ' <a href="'.URL::site('invoice/print/'.$order->invoice->pk()).'" class="paid btn btn-sm btn-default" title="Imprimer la facture" target="_blank"><i class="fa fa-print"></i></a>';
+                    echo ' <a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'" class="paid btn btn-sm btn-default" title="Détails de la facture"><i class="fa fa-search"></i></a>';
+
                     echo '</td>';
                     echo '<td><a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'"># '.$order->invoice->code.'</a></td>';
                     echo '<td> '.$order->invoice->created.'</td>';
@@ -65,7 +70,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+        $('#dataTables-invoiceList').DataTable({
             responsive: true
         });
 
