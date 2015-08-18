@@ -136,4 +136,32 @@ class Controller_AdminProduct extends Controller_Async
 
         $this->data = $results;
     }
+
+    public function action_packages()
+    {
+        $sQuery = 'SELECT DISTINCT(package_size) FROM product';
+        $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
+
+        $results = [];
+        foreach($dQuery as $t)
+        {
+            array_push($results, $t['package_size']);
+        }
+
+        $this->data = $results;
+    }
+
+    public function action_types()
+    {
+        $sQuery = 'SELECT DISTINCT(type) FROM product';
+        $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
+
+        $results = [];
+        foreach($dQuery as $t)
+        {
+            array_push($results, $t['type']);
+        }
+
+        $this->data = $results;
+    }
 }

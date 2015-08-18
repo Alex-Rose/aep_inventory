@@ -29,22 +29,22 @@
 
         <div class="form-group">
             <label class="control-label col-lg-2">Format</label>
-            <div class="col-lg-10" id="format-search">
+            <div class="col-lg-10 auto-complete" id="format-search">
                 <?php echo Form::input('format', $product->format, ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/formats')]);?>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Format de groupe</label>
-            <div class="col-lg-10">
-                <?php echo Form::input('package_size', $product->package_size, ['class' => 'form-control']);?>
+            <div class="col-lg-10 auto-complete" id="package-search">
+                <?php echo Form::input('package_size', $product->package_size, ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/packages')]);?>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Type de contenant</label>
-            <div class="col-lg-10">
-                <?php echo Form::input('type', $product->type, ['class' => 'form-control']);?>
+            <div class="col-lg-10 auto-complete">
+                <?php echo Form::input('type', $product->type, ['class' => 'form-control typeahead', 'data-url' => URL::site('AdminProduct/types')]);?>
             </div>
         </div>
 
@@ -107,25 +107,48 @@
 
 <script>
 
-    $.get($('#format-search .typeahead').attr('data-url'), null, function(value){
-        var formats = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            // url points to a json file that contains an array of country names, see
-            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-            local: value
-        });
-
-        $('#format-search .typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'formats',
-                source: formats
+    $('.auto-complete').each(function(i, item){
+        var input = $(item).find('.typeahead');
+        $.get($(input).attr('data-url'), null, function(value){
+            var formats = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // url points to a json file that contains an array of country names, see
+                // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                local: value
             });
+
+            $(input).typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                },
+                {
+                    name: 'formats',
+                    source: formats
+                });
+        });
     });
+
+//    $.get($('#format-search .typeahead').attr('data-url'), null, function(value){
+//        var formats = new Bloodhound({
+//            datumTokenizer: Bloodhound.tokenizers.whitespace,
+//            queryTokenizer: Bloodhound.tokenizers.whitespace,
+//            // url points to a json file that contains an array of country names, see
+//            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+//            local: value
+//        });
+//
+//        $('#format-search .typeahead').typeahead({
+//                hint: true,
+//                highlight: true,
+//                minLength: 1
+//            },
+//            {
+//                name: 'formats',
+//                source: formats
+//            });
+//    });
 
     $('input:submit[name=save]').click(postData);
 

@@ -53,4 +53,12 @@
             $this->content = View::factory('invoice_detail');
         }
 
+        public function action_print()
+        {
+            $id = $this->request->param('id');
+
+            $this->invoice = ORM::factory('Invoice', $id);
+            $this->title = 'AEP - Commande de bière';
+            $this->content = View::factory('invoice_print');
+        }
     }
