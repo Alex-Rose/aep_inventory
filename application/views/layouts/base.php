@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bière AEP</title>
+    <title><?php echo $pageTitle;?></title>
 	
 	<?php echo HTML::style('assets/bootstrap-3.3.4-dist/css/bootstrap.min.css', ['media' => 'all']);?>
 	<?php echo HTML::style('assets/font-awesome-4.3.0/css/font-awesome.css', ['media' => 'all']);?>

@@ -130,26 +130,6 @@
         });
     });
 
-//    $.get($('#format-search .typeahead').attr('data-url'), null, function(value){
-//        var formats = new Bloodhound({
-//            datumTokenizer: Bloodhound.tokenizers.whitespace,
-//            queryTokenizer: Bloodhound.tokenizers.whitespace,
-//            // url points to a json file that contains an array of country names, see
-//            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-//            local: value
-//        });
-//
-//        $('#format-search .typeahead').typeahead({
-//                hint: true,
-//                highlight: true,
-//                minLength: 1
-//            },
-//            {
-//                name: 'formats',
-//                source: formats
-//            });
-//    });
-
     $('input:submit[name=save]').click(postData);
 
 </script>

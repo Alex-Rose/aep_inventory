@@ -56,8 +56,8 @@
         public function action_print()
         {
             $id = $this->request->param('id');
-
             $this->invoice = ORM::factory('Invoice', $id);
+            $this->pageTitle = 'Bière AEP - Facture #'.$this->invoice->code;
             $this->title = 'AEP - Commande de bière';
             $this->content = View::factory('invoice_print');
         }

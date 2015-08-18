@@ -40,6 +40,8 @@
                 $benchmark = Profiler::start('Application', __FUNCTION__);
             }
 
+            $this->pageTitle = 'Bière AEP';
+
             $this->handleClosedSite();
 
             $this->user = Model_User::current();

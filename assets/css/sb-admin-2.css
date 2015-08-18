@@ -404,11 +404,3 @@ span.twitter-typeahead{
 #product-search span.twitter-typeahead{
     height: 29px;
 }
-
-ul.no_deco{
-    list-style: none;
-}
-
-a.no_deco{
-    text-decoration: none;
-}
