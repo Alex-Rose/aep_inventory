@@ -51,7 +51,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Code de produit</label>
             <div class="col-lg-10">
-                <?php echo Form::input('code', $product->code, ['class' => 'form-control']);?>
+                <?php echo Form::input('code', $product->code, ['class' => 'form-control', 'required' => 'required']);?>
             </div>
         </div>
 
@@ -130,6 +130,19 @@
         });
     });
 
+    $('input:submit[name=save]').click(function(e){
+        var input = $('input[name=code]');
+        if (!input.val()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            input.parents('div.form-group').addClass('has-error');
+        }
+        else
+        {
+            input.parents('div.form-group').removeClass('has-error');
+        }
+
+    });
     $('input:submit[name=save]').click(postData);
 
 </script>
