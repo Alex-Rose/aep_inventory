@@ -56,16 +56,6 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Prix coûtant</label>
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <div class="input-group-addon">$</div>
-                    <?php echo Form::input('cost', number_format($price->cost, 2), ['class' => 'form-control']);?>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label class="control-label col-lg-2">Prix de vente</label>
             <div class="col-lg-10">
                 <div class="input-group">
@@ -76,19 +66,19 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Taxes</label>
-            <div class="col-lg-2">
-                <?php echo Form::select('taxes', ['GST' => 'TPS', 'QST' => 'TVQ', 'BOTH' => 'TPS + TVQ'], $price->taxes, ['class' => 'form-control']);?>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-lg-2">Consigne Québec</label>
+            <label class="control-label col-lg-2">Dépôt</label>
             <div class="col-lg-10">
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
                     <?php echo Form::input('refund', number_format($price->refund, 2), ['class' => 'form-control']);?>
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Taxes</label>
+            <div class="col-lg-2">
+                <?php echo Form::select('taxes', ['BOTH' => 'TPS + TVQ', 'GST' => 'TPS', 'QST' => 'TVQ'], $price->taxes, ['class' => 'form-control']);?>
             </div>
         </div>
 
