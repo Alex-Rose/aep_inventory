@@ -18,31 +18,105 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Prix net</label>
+            <label class="control-label col-lg-2">Produits</label>
+            <div class="col-lg-10">
+                <div class="row" style="padding-top: 12px;">
+                    <div class="col-lg-12">
+                        <table class="table table-striped table-bordered table-hover product-table">
+                            <thead>
+                            <tr><th>Code</th>
+                                <th>Produit</th>
+                                <th style="width:200px">Quantité</th>
+                                <th style="width:200px">Prix</th></tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                foreach ($invoice->items->find_all() as $item)
+                                {
+                                    echo '<tr>';
+                                    echo '<td class="code">'.$item->code.'</td>';
+                                    echo '<td class="name">'.$item->name.'</td>';
+                                    echo '<td class="name">'.$item->quantity.'</td>';
+                                    echo '<td class="name">'.$item->price.' $</td>';
+                                    echo '</tr>';
+                                }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Sous-total</label>
             <div class="col-lg-10 form-text">
-                <?php echo $invoice->price;?> $
+                <?php echo Helper_Number::format($invoice->price);?> $
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2"><?php echo $invoice->tax_1_name;?></label>
             <div class="col-lg-10 form-text">
-                <?php echo $invoice->tax_1_amount;?> $
+                <?php echo Helper_Number::format($invoice->tax_1_amount);?> $
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2"><?php echo $invoice->tax_2_name;?></label>
             <div class="col-lg-10 form-text">
-                <?php echo $invoice->tax_2_amount;?> $
+                <?php echo Helper_Number::format($invoice->tax_2_amount);?> $
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Montant total</label>
+            <label class="control-label col-lg-2">Sous-total bières</label>
+            <div class="col-lg-10 form-text">
+                <?php echo Helper_Number::format($invoice->price_w_tax);?> $
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10 form-text">
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Dépôt (vides)</label>
+            <div class="col-lg-10 form-text">
+                <?php echo Helper_Number::format($invoice->totalDeposit());?> $
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Remboursement vides</label>
+            <div class="col-lg-10 form-text">
+                <?php  echo Helper_Number::format($invoice->totalRefund());?> $
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Total dépôts / vides</label>
+            <div class="col-lg-10 form-text">
+                <?php echo Helper_Number::format($invoice->totalDeposit() + $invoice->totalRefund());?> $
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10 form-text">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Montant Total</label>
             <div class="col-lg-2">
                 <div class="input-group">
-                    <?php echo Form::input('amount', $amount, ['class' => 'form-control', 'disabled' => 'disabled']);?>
+                    <?php echo Form::input('amount', Helper_Number::format($amount), ['class' => 'form-control', 'disabled' => 'disabled']);?>
                     <div class="input-group-addon">$</div>
                 </div>
             </div>
@@ -51,7 +125,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Methode de paiement</label>
             <div class="col-lg-4">
-                <?php echo Form::select('method', ['cash' => 'Argent comptant', 'impute' => 'Imputer'], $method, ['class' => 'form-control']);?>
+                <?php echo Form::select('method', ['cash' => 'Argent comptant', 'impute' => 'Porter au compte'], $method, ['class' => 'form-control']);?>
             </div>
         </div>
 

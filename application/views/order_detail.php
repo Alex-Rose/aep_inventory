@@ -33,7 +33,7 @@
                                         echo '<td class="code">'.$item->product->code.'</td>';
                                         echo '<td class="name">'.$item->product->name.'</td>';
                                         echo '<td class="name">'.$item->quantity.'</td>';
-                                        echo '<td class="name">'.$item->product->price->price.' $</td>';
+                                        echo '<td class="name">'.Helper_Number::format($item->product->price->price).' $</td>';
                                         echo '</tr>';
                                     }
                                 ?>
@@ -46,30 +46,70 @@
 
         <?php $totals = $order->getTotals();?>
         <div class="form-group">
-            <label class="control-label col-lg-2">Sous total</label>
+            <label class="control-label col-lg-2">Sous-total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-amount"><?php echo number_format($totals['price'], 2);?></span> $</div>
+                <div class="form-text"><span id="total-amount"><?php echo Helper_Number::format($totals['price']);?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Taxes</label>
+            <label class="control-label col-lg-2"><?php echo Model_Parameter::getValue('GST_NAME_SHORT');?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-tax-amount"><?php echo number_format(round($totals['gst'] + $totals['qst'], 2),2);?></span> $</div>
+                <div class="form-text"><span id="gst-amount"><?php echo Helper_Number::format(round($totals['gst'], 2));?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Consigne</label>
+            <label class="control-label col-lg-2"><?php echo Model_Parameter::getValue('QST_NAME_SHORT');?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-refund-amount"><?php echo number_format($totals['refund'], 2);?></span> $</div>
+                <div class="form-text"><span id="qst-amount"><?php echo Helper_Number::format(round($totals['qst'], 2));?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Sous-total bières</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-wtax-amount"><?php echo Helper_Number::format(round($totals['price'] + $totals['gst'] + $totals['qst'], 2));?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Dépôt</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-refund-amount"><?php echo Helper_Number::format($totals['deposit']);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Remboursement vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-refund-amount"><?php echo Helper_Number::format($totals['refund']);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Total dépôts / vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-refund-amount"><?php echo Helper_Number::format($totals['totalRefund']);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-wtax-amount"><?php echo number_format(round($totals['total'], 2), 2);?></span> $</div>
+                <div class="form-text"><span id="total-wtax-amount"><?php echo Helper_Number::format(round($totals['total'], 2));?></span> $</div>
             </div>
         </div>
 

@@ -10,9 +10,17 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Nom de la taxe provinciale</label>
             <div class="col-lg-10">
-                <?php echo Form::input('qstName', $qstName, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/GST_RATE')]);?>
+                <?php echo Form::input('qstName', $qstName, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/QST_NAME')]);?>
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Abbréviation de la taxe provinciale</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('qstNameShort', $qstNameShort, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/QST_NAME_SHORT')]);?>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label class="control-label col-lg-2">Taxe Provinciale</label>
@@ -27,7 +35,14 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Nom de la taxe fédérale</label>
             <div class="col-lg-10">
-                <?php echo Form::input('gstName', $gstName, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/GST_RATE')]);?>
+                <?php echo Form::input('gstName', $gstName, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/GST_NAME')]);?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Abbréviation de la taxe fédérale</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('gstNameShort', $gstNameShort, ['class' => 'form-control', 'data-url' => URL::site('AdminParameters/save/GST_NAME_SHORT')]);?>
             </div>
         </div>
 

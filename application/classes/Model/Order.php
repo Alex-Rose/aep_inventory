@@ -26,8 +26,8 @@
             $refund = 0.0;
             $price = 0.0;
 
-            $gstName = Model_Parameter::getValue('GST_NAME');
-            $qstName = Model_Parameter::getValue('QST_NAME');
+            $gstName = Model_Parameter::getValue('GST_NAME_SHORT');
+            $qstName = Model_Parameter::getValue('QST_NAME_SHORT');
             $gstRate = floatval(Model_Parameter::getValue('GST_RATE'));
             $qstRate = floatval(Model_Parameter::getValue('QST_RATE'));
 
@@ -78,6 +78,7 @@
             $invoice->tax_2_amount  = round($qst, 2);
             $invoice->refund        = round($refund, 2);
             $invoice->price         = round($price, 2);
+            $invoice->price_w_tax   = round($price + $gst + $qst, 2);
             $invoice->code          = (int)date("Y") - 1875 . $invoice->pk();
             $invoice->save();
 
@@ -90,6 +91,7 @@
             $gst = 0.0;
             $qst = 0.0;
             $refund = 0.0;
+            $deposit = 0.0;
 
             $gstRate = floatval(Model_Parameter::getValue('GST_RATE'));
             $qstRate = floatval(Model_Parameter::getValue('QST_RATE'));
@@ -106,18 +108,32 @@
                     $qst += $item->product->price->price * $item->quantity * $qstRate;
                 }
 
-                $price              += $item->product->price->price * $item->quantity;
-                $refund             += $item->product->price->refund * $item->quantity;
+                $price += $item->product->price->price * $item->quantity;
+
+                if ($item->product->price->refund > 0)
+                {
+                    $deposit += $item->product->price->refund * $item->quantity;
+                }
+                else if ($item->product->price->refund < 0)
+                {
+                    $refund += $item->product->price->refund * $item->quantity;
+                }
             }
 
             $total = $gst + $qst + $price + $refund;
+            $priceWTax = $gst + $qst + $price;
+            $totalRefund = $deposit + $refund;
+
 
             return [
-                'price' => $price,
-                'total' => $total,
-                'qst'   => $qst,
-                'gst'   => $gst,
-                'refund'=> $refund
+                'price'     => $price,
+                'total'     => $total,
+                'qst'       => $qst,
+                'gst'       => $gst,
+                'refund'    => $refund,
+                'deposit'   => $deposit,
+                'totalRefund'=> $totalRefund,
+                'priceWTax' => $priceWTax,
             ];
         }
 

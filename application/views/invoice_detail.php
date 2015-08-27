@@ -37,10 +37,10 @@
                                     foreach ($invoice->items->find_all() as $item)
                                     {
                                         echo '<tr>';
-                                        echo '<td class="code">'.$item->product->code.'</td>';
-                                        echo '<td class="name">'.$item->product->name.'</td>';
+                                        echo '<td class="code">'.$item->code.'</td>';
+                                        echo '<td class="name">'.$item->name.'</td>';
                                         echo '<td class="name">'.$item->quantity.'</td>';
-                                        echo '<td class="name">'.$item->product->price->price.' $</td>';
+                                        echo '<td class="name">'.$item->price.' $</td>';
                                         echo '</tr>';
                                     }
                                 ?>
@@ -53,30 +53,72 @@
 
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Sous total</label>
+            <label class="control-label col-lg-2">Sous-total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-amount"><?php echo number_format($invoice->price, 2);?></span> $</div>
+                <div class="form-text"><span id="total-amount"><?php echo Helper_Number::format($invoice->price);?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Taxes</label>
+            <label class="control-label col-lg-2"><?php echo $invoice->tax_1_name;?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-tax-amount"><?php echo number_format(round($invoice->tax_1_amount + $invoice->tax_1_amount, 2),2);?></span> $</div>
+                <div class="form-text"><span><?php echo Helper_Number::format($invoice->tax_1_amount);?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Consigne</label>
+            <label class="control-label col-lg-2"><?php echo $invoice->tax_2_name;?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-refund-amount"><?php echo number_format($invoice->refund, 2);?></span> $</div>
+                <div class="form-text"><span><?php echo Helper_Number::format($invoice->tax_2_amount);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Sous-total bières</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-tax-amount"><?php echo Helper_Number::format($invoice->price_w_tax);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Dépôt</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span><?php echo Helper_Number::format($invoice->totalDeposit());?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Remboursement vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span><?php echo Helper_Number::format($invoice->totalRefund());?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Total dépôts / vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span><?php echo Helper_Number::format($invoice->refund);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-wtax-amount"><?php echo number_format(round($invoice->total, 2), 2);?></span> $</div>
+                <div class="form-text"><span id="total-wtax-amount"><?php echo Helper_Number::format($invoice->total);?></span> $</div>
             </div>
         </div>
 

@@ -78,7 +78,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Taxes</label>
             <div class="col-lg-2">
-                <?php echo Form::select('taxes', ['BOTH' => 'TPS + TVQ', 'GST' => 'TPS', 'QST' => 'TVQ'], $price->taxes, ['class' => 'form-control']);?>
+                <?php echo Form::select('taxes', ['BOTH' => 'TPS + TVQ', 'GST' => 'TPS', 'QST' => 'TVQ', 'NONE' => 'Aucune'], $price->taxes, ['class' => 'form-control']);?>
             </div>
         </div>
 

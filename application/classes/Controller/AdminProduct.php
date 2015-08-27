@@ -45,6 +45,8 @@ class Controller_AdminProduct extends Controller_Async
         $price->refund  = $refund;
         $price->save();
 
+        $this->updateInvoices($product);
+
         $this->data['success'] = true;
         $this->data['feedback'] = Helper_Alert::success('Enregistrement reussi');
     }
@@ -163,5 +165,41 @@ class Controller_AdminProduct extends Controller_Async
         }
 
         $this->data = $results;
+    }
+
+    protected function updateInvoices($product)
+    {
+        $items = ORM::factory('InvoiceItem')->with('invoice')->where('productID', '=', $product->pk())->where('invoice.paymentID', 'IS', null)->find_all();
+
+        foreach ($items as $i)
+        {
+            $gstName = Model_Parameter::getValue('GST_NAME_SHORT');
+            $qstName = Model_Parameter::getValue('QST_NAME_SHORT');
+            $gstRate = floatval(Model_Parameter::getValue('GST_RATE'));
+            $qstRate = floatval(Model_Parameter::getValue('QST_RATE'));
+
+            if ($product->price->taxes == 'GST' || $product->price->taxes == 'BOTH')
+            {
+                $i->tax_1_name = $gstName;
+                $i->tax_1_amount = $product->price->price * $i->quantity * $gstRate;
+            }
+
+            if ($product->price->taxes == 'QST' || $product->price->taxes == 'BOTH')
+            {
+                $i->tax_2_name = $qstName;
+                $i->tax_2_amount = $product->price->price * $i->quantity * $qstRate;
+            }
+
+            $i->tax_incremental = true;
+            $i->price           = $product->price->price * $i->quantity;
+            $i->refund          = $product->price->refund * $i->quantity;
+            $i->name            = $product->name;
+            $i->brand           = $product->brand;
+            $i->format          = $product->format;
+            $i->package_size    = $product->package_size;
+            $i->type            = $product->type;
+            $i->code            = $product->code;
+            $i->save();
+        }
     }
 }

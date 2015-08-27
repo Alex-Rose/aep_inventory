@@ -30,7 +30,7 @@
                     {
                         echo '<li>';
                         echo '<span class="label label-info">'.$item->quantity.'</span> ';
-                        echo $item->product->name;
+                        echo $item->name;
                         echo '</li>';
                     }
                     echo '</li></td>';

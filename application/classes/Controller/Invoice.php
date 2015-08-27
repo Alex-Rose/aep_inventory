@@ -59,6 +59,7 @@
             $this->invoice = ORM::factory('Invoice', $id);
             $this->pageTitle = 'Bière AEP - Facture #'.$this->invoice->code;
             $this->title = 'AEP - Commande de bière';
+            $this->addCss = ['assets/css/print.css'];
             $this->content = View::factory('invoice_print');
         }
     }

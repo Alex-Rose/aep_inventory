@@ -48,30 +48,68 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Sous total</label>
+            <label class="control-label col-lg-2">Sous-total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-amount"><?php echo '0.00';?></span> $</div>
+                <div class="form-text"><span id="total-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Taxes</label>
+            <label class="control-label col-lg-2"><?php echo Model_Parameter::getValue('GST_NAME_SHORT');?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-tax-amount"><?php echo '0.00';?></span> $</div>
+                <div class="form-text"><span id="gst-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Consigne</label>
+            <label class="control-label col-lg-2"><?php echo Model_Parameter::getValue('QST_NAME_SHORT');?></label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-refund-amount"><?php echo '0.00';?></span> $</div>
+                <div class="form-text"><span id="qst-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Sous-total bières</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-wtax-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Dépôt</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="deposit-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Remboursement vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="refund-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Total dépôts / vides</label>
+            <div class="col-lg-10">
+                <div class="form-text"><span id="total-refund-amount"><?php echo Helper_Number::format(0.00);?></span> $</div>
+            </div>
+        </div>
+
+        <div class="form-group">
         </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Total</label>
             <div class="col-lg-10">
-                <div class="form-text"><span id="total-wtax-amount"><?php echo '0.00';?></span> <span data-toggle="tooltip" data-placement="top" title="Prix arrondi. Le prix réel peut varier légèrement">$</span></div>
+                <div class="form-text"><span id="grand-total-amount"><?php echo '0.00';?></span> <span data-toggle="tooltip" data-placement="top" title="Prix arrondi. Le prix réel peut varier légèrement">$</span></div>
             </div>
         </div>
 
@@ -108,8 +146,8 @@
 
 <?php echo Form::hidden('products-data', URL::site('AdminProduct/associative'));?>
 <?php echo Form::hidden('products-list', URL::site('AdminOrder/allItems/'.$order->pk()));?>
-<?php echo Form::hidden('GST', 0.05);?>
-<?php echo Form::hidden('QST', 0.0975);?>
+<?php echo Form::hidden('GST', Model_Parameter::getValue('GST_RATE'));?>
+<?php echo Form::hidden('QST', Model_Parameter::getValue('QST_RATE'));?>
 <?php echo Form::hidden('ID', $order->pk());?>
 
 <script>
@@ -333,39 +371,66 @@
     }
 
     function recalculateTax(){
-        var totalAmount = $('#total-tax-amount');
+        var totalAmount = $('#total-wtax-amount');
+        var qstAmount   = $('#qst-amount');
+        var gstAmount   = $('#gst-amount');
         var gstRate = parseFloat($('input:hidden[name=GST]').val());
         var qstRate = parseFloat($('input:hidden[name=QST]').val());
 
         var total = 0.0;
+        var qstTotal = 0.0;
+        var gstTotal = 0.0;
         $('.price').each(function(i, item){
             var amount = parseFloat($(item).html());
             var gst = Math.round(amount * gstRate * 100) / 100;
 
             var qst = Math.round(amount * qstRate * 100) / 100;
-            total += qst + gst;
+            total += qst + gst + amount;
+            qstTotal += qst;
+            gstTotal += gst;
         });
+
         totalAmount.html(total.toFixed(2));
+        qstAmount.html(qstTotal.toFixed(2));
+        gstAmount.html(gstTotal.toFixed(2));
     }
 
     function recalculateRefund()
     {
         var totalAmount = $('#total-refund-amount');
+        var depositTotal= $('#deposit-amount');
+        var refundTotal = $('#refund-amount');
 
-        var total = 0.0;
+        var total   = 0.0;
+        var deposit = 0.0;
+        var refund  = 0.0;
         $('.code').each(function(i, item){
             var amount = products[$(item).html()].refund;
             var qty = $(item).parents('tr').find('.qty-selector').val();
-            total += amount * qty;
+
+            var sub = qty * amount;
+            if (sub > 0)
+            {
+                deposit += sub;
+            }
+            else
+            {
+                refund += sub;
+            }
+
+            total += sub;
         });
+
         totalAmount.html(total.toFixed(2));
+        depositTotal.html(deposit.toFixed(2));
+        refundTotal.html(refund.toFixed(2));
     }
 
     function recalculateGrandTotal()
     {
-        var totalAmount = $('#total-wtax-amount');
+        var totalAmount = $('#grand-total-amount');
 
-        var amount = parseFloat($('#total-tax-amount').html()) + parseFloat($('#total-amount').html()) + parseFloat($('#total-refund-amount').html());
+        var amount = parseFloat($('#total-wtax-amount').html()) + parseFloat($('#total-refund-amount').html());
         totalAmount.html(amount.toFixed(2));
     }
 </script>

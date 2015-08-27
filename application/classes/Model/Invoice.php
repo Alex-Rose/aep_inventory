@@ -22,4 +22,34 @@
 
             parent::delete();
         }
+
+        // Charged to the client
+        public function totalDeposit()
+        {
+            $total = 0.0;
+            foreach ($this->items->find_all() as $item)
+            {
+                if ($item->refund > 0)
+                {
+                    $total += $item->refund;
+                }
+            }
+
+            return $total;
+        }
+
+        // Refunded when returned
+        public function totalRefund()
+        {
+            $total = 0.0;
+            foreach ($this->items->find_all() as $item)
+            {
+                if ($item->refund < 0)
+                {
+                    $total += $item->refund;
+                }
+            }
+
+            return $total;
+        }
     }
