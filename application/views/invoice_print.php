@@ -49,9 +49,11 @@
                         <table class="table table-striped table-bordered table-hover product-table">
                             <thead>
                             <tr><th style="width:12%">Code</th>
-                                <th style="width:64%">Produit</th>
-                                <th style="width:12%">Quantité</th>
-                                <th style="width:12%">Prix</th></tr>
+                                <th style="width:44%">Produit</th>
+                                <th style="width:8%">Quantité</th>
+                                <th style="width:12%">Prix unitaire</th>
+                                <th style="width:12%">Prix</th>
+                                <th style="width:12%">Dépôt (total)</th></tr>
                             </thead>
                             <tbody>
                             <?php
@@ -60,8 +62,10 @@
                                     echo '<tr>';
                                     echo '<td class="code">'.$item->code.'</td>';
                                     echo '<td class="name">'.$item->name.'</td>';
-                                    echo '<td class="name">'.$item->quantity.'</td>';
-                                    echo '<td class="name">'.$item->price.' $</td>';
+                                    echo '<td class="qty-txt">'.$item->quantity.'</td>';
+                                    echo '<td class="amount">'.Helper_Number::format($item->price_unit).' $</td>';
+                                    echo '<td class="amount">'.Helper_Number::format($item->price).' $</td>';
+                                    echo '<td class="amount">'.Helper_Number::format($item->refund).' $</td>';
                                     echo '</tr>';
                                 }
                             ?>

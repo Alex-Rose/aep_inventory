@@ -365,6 +365,11 @@ table.product-table input[name=qty]{
     width: 60px;
 }
 
+table.product-table td.amount, table.product-table td.qty-txt{
+    text-align: right;
+}
+
+
 .label-as-badge{
     border-radius: 1em;
 }

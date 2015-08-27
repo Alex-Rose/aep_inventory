@@ -29,8 +29,10 @@
                             <thead>
                             <tr><th>Code</th>
                                 <th>Produit</th>
-                                <th style="width:200px">Quantité</th>
-                                <th style="width:200px">Prix</th></tr>
+                                <th style="width:100px">Quantité</th>
+                                <th style="width:200px">Prix unitaire</th>
+                                <th style="width:200px">Prix</th>
+                                <th style="width:200px">Dépôt (total)</th></tr>
                             </thead>
                             <tbody>
                                 <?php
@@ -39,8 +41,10 @@
                                         echo '<tr>';
                                         echo '<td class="code">'.$item->code.'</td>';
                                         echo '<td class="name">'.$item->name.'</td>';
-                                        echo '<td class="name">'.$item->quantity.'</td>';
-                                        echo '<td class="name">'.$item->price.' $</td>';
+                                        echo '<td class="qty-txt">'.$item->quantity.'</td>';
+                                        echo '<td class="amount">'.Helper_Number::format($item->price_unit).' $</td>';
+                                        echo '<td class="amount">'.Helper_Number::format($item->price).' $</td>';
+                                        echo '<td class="amount">'.Helper_Number::format($item->refund).' $</td>';
                                         echo '</tr>';
                                     }
                                 ?>

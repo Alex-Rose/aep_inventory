@@ -52,7 +52,9 @@
 
                 $i->tax_incremental = true;
                 $i->price           = $item->product->price->price * $item->quantity;
+                $i->price_unit      = $item->product->price->price;
                 $i->refund          = $item->product->price->refund * $item->quantity;
+                $i->refund_unit     = $item->product->price->refund;
                 $i->name            = $item->product->name;
                 $i->brand           = $item->product->brand;
                 $i->format          = $item->product->format;

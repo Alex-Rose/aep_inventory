@@ -192,7 +192,9 @@ class Controller_AdminProduct extends Controller_Async
 
             $i->tax_incremental = true;
             $i->price           = $product->price->price * $i->quantity;
+            $i->price_unit      = $product->price->price;
             $i->refund          = $product->price->refund * $i->quantity;
+            $i->refund_unit     = $product->price->refund;
             $i->name            = $product->name;
             $i->brand           = $product->brand;
             $i->format          = $product->format;
