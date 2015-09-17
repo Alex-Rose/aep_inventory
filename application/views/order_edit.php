@@ -131,7 +131,7 @@
                 </div>
             <?php } else { ?>
                 <div class="col-lg-3">
-                    <?php echo HTML::anchor('invoice/view/'.$order->invoice->pk(), 'Voir la facture', ['class' => 'form-control btn btn-default']);?>
+                    <?php echo HTML::anchor('invoice/view/'.$order->invoice->pk(), 'Voir la facture', ['class' => 'form-control btn btn-default', 'id' => 'viewInvoice']);?>
                 </div>
             <?php } ?>
 
@@ -149,6 +149,7 @@
 <?php echo Form::hidden('GST', Model_Parameter::getValue('GST_RATE'));?>
 <?php echo Form::hidden('QST', Model_Parameter::getValue('QST_RATE'));?>
 <?php echo Form::hidden('ID', $order->pk());?>
+<?php echo Form::hidden('invoice-view-url', URL::site('invoice/view'));?>
 
 <script>
 
@@ -301,6 +302,12 @@
         }).done(function(data) {
             $('input:hidden[name=ID]').val(data.ID);
             $('#feedback').html(data.feedback);
+
+            if (data.invoiceID != null) {
+                var url = $('input:hidden[name=invoice-view-url]').val();
+                url += '/' + data.invoiceID;
+                $('#viewInvoice').attr('href', url);
+            }
         });
     });
 

@@ -46,15 +46,17 @@ class Controller_AdminOrder extends Controller_Async
                 }
             }
 
-            if ($order->invoice->loaded() && $order->invoice->paymentID == null)
+            if ($order->invoice->loaded() && $order->invoice->paymentID == null) // Should check this before editing the order
             {
                 $order->invoice->delete();
-                $order->createInvoice();
+                $invoice = $order->createInvoice();
+                $this->data['invoiceID'] = $invoice->pk();
             }
 
             $this->data['success'] = true;
             $this->data['ID'] = $order->pk();
             $this->data['feedback'] = Helper_Alert::success('Commande enregistrée avec succès');
+
         }
         else
         {
@@ -92,10 +94,10 @@ class Controller_AdminOrder extends Controller_Async
 
         if ($order->loaded())
         {
-            $order->createInvoice();
+            $invoice = $order->createInvoice();
 
             $this->data['success'] = true;
-            $this->data['feedback'] = Helper_Alert::success('La commande a été facturée');
+            $this->data['feedback'] = Helper_Alert::success('La commande a été facturée. Voir la '. HTML::anchor('invoice/view/'.$invoice->pk(), 'facture'));
         }
         else
         {

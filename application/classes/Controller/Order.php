@@ -12,7 +12,7 @@
         public function action_index()
         {
             $this->title = 'Liste des commandes';
-            $this->orders = ORM::factory('Order')->find_all();
+            $this->orders = ORM::factory('Order')->order_by('created', 'DESC')->find_all();
             $this->content = View::factory('order');
         }
 

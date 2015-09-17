@@ -55,8 +55,11 @@
 
 <script>
     $(document).ready(function() {
+        $.fn.dataTable.moment( 'DD-MM-YYYY' );
+
         $('#dataTables-example').DataTable({
-            responsive: true
+            responsive: true,
+            order: [[ 5, "desc" ]]
         });
     });
 

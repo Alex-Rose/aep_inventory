@@ -31,6 +31,8 @@
 	<?php echo HTML::script('assets/js/form.js'); ?>
 	<?php echo HTML::script('assets/js/analytics.js'); ?>
 	<?php echo HTML::script('assets/js/typeahead.bundle.js'); ?>
+	<?php echo HTML::script('assets/js/moment.js'); ?>
+	<?php echo HTML::script('assets/js/datetime-moments.js'); ?>
 	<?php
 		if (isset($addJs))
 		{
