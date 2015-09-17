@@ -34,7 +34,7 @@
                         echo '</li>';
                     }
                     echo '</li></td>';
-                    echo '<td>'.$order->client->phone.'</td>';
+                    echo '<td>'.Helper_Number::format($order->invoice->total).' $</td>';
                     echo '<td>';
                     $class = $order->delivered ? 'btn-success active' : 'btn-default';
                     $tooltip = $order->delivered ? 'Livrée' : 'Livraison en attente';
