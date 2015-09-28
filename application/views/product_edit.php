@@ -83,9 +83,14 @@
         </div>
 
         <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-4">
+            <div class="col-lg-offset-2 col-lg-3">
                 <?php echo Form::submit('save', 'Enregistrer', ['class' => 'form-control btn btn-primary']);?>
             </div>
+            <?php if ($product->loaded()) { ?>
+            <div class="col-lg-3">
+                <?php echo Form::submit('delete', 'Supprimer', ['class' => 'form-control btn btn-danger']);?>
+            </div>
+            <?php } ?>
         </div>
 
         <div class="form-group">
@@ -134,5 +139,10 @@
 
     });
     $('input:submit[name=save]').click(postData);
+
+    $('input:submit[name=delete]').click(function(e){
+        e.preventDefault();
+        $('#feedback').html('<div class="alert alert-danger">Ooops cette fonctionnalité n\'est pas encore finie!</div>');
+    });
 
 </script>

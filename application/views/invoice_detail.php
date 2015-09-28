@@ -127,15 +127,15 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-lg-2">Livrée</label>
+            <label class="control-label col-lg-2">Méthode de paiement</label>
             <div class="col-lg-1">
-                <?php echo Form::checkbox('delivered', null, (bool)$invoice->order->delivered, ['class' => 'form-control', 'style' => 'width:34px', 'disabled' => 'disabled']);?>
+                <div class="form-text"><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : '');?></div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-2">
-                <a href="<?php echo URL::site('invoice/print/'.$invoice->pk());?>" target="_blank" class="btn btn-success">Imprimer</a>
+                <a href="<?php echo URL::site('invoice/print/'.$invoice->pk());?>" target="_blank" class="form-control btn btn-success">Imprimer</a>
             </div>
         </div>
 

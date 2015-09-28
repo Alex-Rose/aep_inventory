@@ -151,6 +151,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-xs-3 col-xs-offset-7">Méthode de paiement</label>
+            <div class="col-xs-2">
+                <div class="form-text"><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : '');?></div> 
+            </div>
+        </div>
+
     </div>
 </div>
 
