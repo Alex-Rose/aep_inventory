@@ -8,8 +8,22 @@
         <?php echo Form::open('', ['class' => 'form-horizontal', 'role' => 'form']); ?>
         <div class="form-group">
             <label class="control-label col-lg-2">Client</label>
-            <div class="col-lg-10" id="client-search">
+            <div class="col-lg-10">
                 <div class="form-text"><?php echo $invoice->client->name . ' - ' . $invoice->client->email; ?></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Date</label>
+            <div class="col-lg-10">
+                <div class="form-text"><?php echo $invoice->created; ?></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Facture émise par</label>
+            <div class="col-lg-10">
+                <div class="form-text"><?php echo $invoice->user->name; ?></div>
             </div>
         </div>
 

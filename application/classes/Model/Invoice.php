@@ -7,7 +7,8 @@
 
         protected $_belongs_to 	= ['client' => ['model' => 'Client', 'foreign_key' => 'clientID'],
                                    'order' => ['model' => 'Order', 'foreign_key' => 'orderID'],
-                                   'payment' => ['model' => 'Payment', 'foreign_key' => 'paymentID']];
+                                   'payment' => ['model' => 'Payment', 'foreign_key' => 'paymentID'],
+                                   'user' => ['model' => 'User', 'foreign_key' => 'userID']];
 
         protected $_has_many 	= ['items' => ['model' => 'InvoiceItem', 'foreign_key' => 'invoiceID']];
 
