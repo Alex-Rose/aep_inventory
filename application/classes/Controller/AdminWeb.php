@@ -82,4 +82,23 @@
             }
 
         }
+
+        public function action_changeProfile()
+        {
+            $user = Model_User::current();
+            $name = $this->request->post('name');
+
+            if ($user->loaded() && $name != null)
+            {
+                $user->name  = $name;
+                $user->save();
+                $this->data['success'] = true;
+                $this->data['feedback'] = Helper_Alert::success('Informations changées avec succès');
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('Le nom ne peut être vide');
+            }
+
+        }
     }

@@ -6,18 +6,11 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <?php echo Form::open('AdminWeb/changeProfile', ['class' => 'form-horizontal', 'role' => 'form']); ?>
+        <?php echo Form::open('AdminWeb/changePassword', ['class' => 'form-horizontal', 'role' => 'form']); ?>
         <div class="form-group">
-            <label class="control-label col-lg-2">Nom</label>
+            <label class="control-label col-lg-2">Nouveau mot de passe</label>
             <div class="col-lg-10">
-                <?php echo Form::input('name', $user->name, ['class' => 'form-control']);?>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-lg-2">Mot de passe</label>
-            <div class="col-lg-2">
-                <?php echo HTML::anchor('user/password', '<i class="fa fa-key"></i> Changer', ['class' => 'btn btn-default form-control']);?>
+                <?php echo Form::password('password', '', ['class' => 'form-control']);?>
             </div>
         </div>
 

@@ -48,4 +48,11 @@
 
             $this->content = View::factory('user_edit');
         }
+
+        public function action_password()
+        {
+            $this->title = 'Modifier mon mot de passe';
+
+            $this->content = View::factory('user_password');
+        }
     }
