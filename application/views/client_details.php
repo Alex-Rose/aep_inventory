@@ -16,6 +16,15 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Note</label>
+            <div class="col-lg-10">
+                <div class="form-text">
+                    <?php echo $client->note;?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-lg-2">Adresse</label>
             <div class="col-lg-10">
                 <div class="form-text">
@@ -38,6 +47,15 @@
             <div class="col-lg-10">
                 <div class="form-text">
                     <?php echo $client->email;?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+                <div class="form-text">
+                    <a href="<?php echo URL::site('client/list/edit/'.$client->pk());?>" class="btn btn-xs btn-default">Modifier</a>
                 </div>
             </div>
         </div>

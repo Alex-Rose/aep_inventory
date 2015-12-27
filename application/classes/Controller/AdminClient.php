@@ -15,7 +15,8 @@
             $name       = $this->request->post('name');
             $address    = $this->request->post('address');
             $phone      = $this->request->post('phone');
-            $email       = $this->request->post('email');
+            $email      = $this->request->post('email');
+            $note       = $this->request->post('note');
 
             $client = ORM::factory('Client', $id);
 
@@ -23,11 +24,12 @@
             $client->address = $address;
             $client->phone = $phone;
             $client->email = $email;
+            $client->note  = $note;
 
             $client->save();
 
             $this->data['success'] = true;
-            $this->data['feedback'] = 'Enregistrement reussi';
+            $this->data['feedback'] = Helper_Alert::success('Enregistrement reussi');
         }
 
         public function action_search()

@@ -10,9 +10,9 @@
             <thead>
             <tr>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Nom</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Téléphone</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Note</th>
                 <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Courriel</th>
-                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Solde</th>
+                <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Téléphone</th>
             </tr>
             </thead>
             <tbody>
@@ -21,9 +21,9 @@
                 {
                     echo '<tr>';
                     echo '<td><a href="'.URL::site('client/list/edit/'.$client->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('client/list/details/'.$client->pk()).'">'.$client->name.'</a></td>';
-                    echo '<td>'.$client->phone.'</td>';
+                    echo '<td> '.$client->note.'</td>';
                     echo '<td>'.$client->email.'</td>';
-                    echo '<td> 0$ </td>';
+                    echo '<td>'.$client->phone.'</td>';
                     echo '</tr>';
                 }
             ?>

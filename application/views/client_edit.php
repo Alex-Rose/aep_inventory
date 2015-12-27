@@ -14,6 +14,13 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Note</label>
+            <div class="col-lg-10">
+                <?php echo Form::input('note', $client->note, ['class' => 'form-control']);?>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-lg-2">Adresse</label>
             <div class="col-lg-10">
                 <?php echo Form::input('address', $client->address, ['class' => 'form-control']);?>
