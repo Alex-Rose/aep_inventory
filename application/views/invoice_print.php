@@ -89,6 +89,13 @@
                 <?php echo nl2br($invoice->note);?>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-xs-2">
+                <div class="h3"><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : '');?></div>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="control-label col-xs-3 col-xs-offset-7">Sous-total</label>
             <div class="col-xs-2">
@@ -160,13 +167,6 @@
         <div class="form-group spacer">
             <label class="control-label col-xs-4"></label>
             <div class="col-xs-2">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-xs-3 col-xs-offset-7">Méthode de paiement</label>
-            <div class="col-xs-2">
-                <div><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : '');?></div>
             </div>
         </div>
 

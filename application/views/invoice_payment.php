@@ -129,7 +129,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Methode de paiement</label>
             <div class="col-lg-4">
-                <?php echo Form::select('method', ['cash' => 'Argent comptant', 'impute' => 'Porter au compte'], $method, ['class' => 'form-control']);?>
+                <?php echo Form::select('method', ['cash' => 'Argent comptant', 'impute' => 'Imputer'], $method, ['class' => 'form-control']);?>
             </div>
         </div>
 
@@ -160,6 +160,9 @@
                     <?php echo Form::submit('delete', 'Supprimer le paiement', ['class' => 'form-control btn btn-danger', 'data-url' => URL::site('AdminInvoice/unpay/'.$invoice->pk())]);?>
                 </div>
             <?php } ?>
+            <div class="col-lg-3">
+                <a href="<?php echo URL::site('invoice/view/'.$invoice->pk());?>" class="form-control btn btn-default">Voir la facture</a>
+            </div>
         </div>
 
         <div class="form-group">
