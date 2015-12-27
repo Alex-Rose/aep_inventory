@@ -166,6 +166,9 @@
             <div class="col-lg-offset-2 col-lg-2">
                 <a href="<?php echo URL::site('invoice/print/'.$invoice->pk());?>" target="_blank" class="form-control btn btn-success">Imprimer</a>
             </div>
+            <div class="col-lg-2">
+                <a href="<?php echo URL::site('invoice/pay/'.$invoice->pk());?>" class="form-control btn btn-primary">Paiement</a>
+            </div>
         </div>
 
         <div class="form-group">
