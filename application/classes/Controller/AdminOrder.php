@@ -15,6 +15,7 @@ class Controller_AdminOrder extends Controller_Async
         $client = $this->request->post('client');
         $delivered = $this->request->post('delivered') == 'true';
         $products = $this->request->post('products');
+        $note = $this->request->post('note');
 
         $order = ORM::factory('Order', $id);
         $client = ORM::factory('Client')->where('name', '=', $client)->find();
@@ -30,6 +31,7 @@ class Controller_AdminOrder extends Controller_Async
 
             $order->clientID = $client->pk();
             $order->delivered = $delivered;
+            $order->note = $note;
             $order->save();
 
             foreach ($products as $code => $amount)

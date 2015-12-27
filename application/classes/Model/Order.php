@@ -1,11 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-    class Model_Order extends ORM
+    class Model_Order extends Helper_UsesNote
     {
         protected $_table_name  = 'order';
         protected $_primary_key = 'ID';
 
-        protected $_belongs_to 	= ['client' => ['model' => 'Client', 'foreign_key' => 'clientID']];
+        protected $_belongs_to 	= ['client' => ['model' => 'Client', 'foreign_key' => 'clientID'],
+                                   'note_item' => ['model' => 'Note', 'foreign_key' => 'noteID']];
 
         protected $_has_many 	= ['items' => ['model' => 'OrderItem', 'foreign_key' => 'orderID']];
         protected $_has_one 	= ['invoice' => ['model' => 'Invoice', 'foreign_key' => 'orderID']];
@@ -16,6 +17,7 @@
 
             $invoice->clientID = $this->client->pk();
             $invoice->orderID = $this->pk();
+            $invoice->noteID = $this->noteID;
             $invoice->tax_incremental = true;
             $invoice->userID = Model_User::current()->pk();
             $invoice->save();
@@ -166,6 +168,11 @@
             foreach ($items as $item)
             {
                 $item->delete();
+            }
+
+            if ($this->note_item->loaded())
+            {
+                $this->note_item->delete();
             }
 
             parent::delete();

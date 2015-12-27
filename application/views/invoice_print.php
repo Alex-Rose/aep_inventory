@@ -83,7 +83,12 @@
             </div>
         </div>
 
-
+        <div class="form-group">
+            <label class="control-label col-xs-1">Note</label>
+            <div class="col-xs-7">
+                <?php echo nl2br($invoice->note);?>
+            </div>
+        </div>
         <div class="form-group">
             <label class="control-label col-xs-3 col-xs-offset-7">Sous-total</label>
             <div class="col-xs-2">

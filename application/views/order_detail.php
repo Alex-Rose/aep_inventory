@@ -44,6 +44,15 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-lg-2">Note</label>
+            <div class="col-lg-10">
+                <div class="form-text">
+                    <?php echo nl2br($order->note);?>
+                </div>
+            </div>
+        </div>
+
         <?php $totals = $order->getTotals();?>
         <div class="form-group">
             <label class="control-label col-lg-2">Sous-total</label>

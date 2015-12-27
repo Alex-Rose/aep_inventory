@@ -69,6 +69,21 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-lg-2">Notes</label>
+            <div class="col-lg-10">
+                <div class="form-text">
+                    <?php echo nl2br($invoice->note);?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-lg-2">Sous-total</label>

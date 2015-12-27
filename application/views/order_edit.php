@@ -48,6 +48,15 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-lg-2">Note</label>
+            <div class="col-lg-10">
+                <div class="">
+                    <?php echo Form::textarea('note', $order->note, ['class' => 'form-control']);?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="control-label col-lg-2">Sous-total</label>
             <div class="col-lg-10">
                 <div class="form-text"><span id="total-amount"><?php echo Helper_Number::format(0.0);?></span> $</div>
@@ -294,11 +303,12 @@
         var client = $('input[name=name]').val();
         var delivered = $('input:checkbox[name=delivered]').prop('checked');
         var id = $('input:hidden[name=ID]').val();
+        var note = $('textarea[name=note]').val();
 
         $.ajax({
             method: 'POST',
             url: url,
-            data: { 'ID': id, 'client': client, 'delivered': delivered, 'products': JSON.stringify(products)}
+            data: { 'ID': id, 'client': client, 'delivered': delivered, 'note': note, 'products': JSON.stringify(products)}
         }).done(function(data) {
             $('input:hidden[name=ID]').val(data.ID);
             $('#feedback').html(data.feedback);
