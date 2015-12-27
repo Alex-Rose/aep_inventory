@@ -4,6 +4,12 @@
     </div>
 </div>
 
+<div class="row" style="margin-bottom:10px;">
+    <div class="col-lg-12">
+        <?php echo HTML::anchor('order/create', 'Créer une nouvelle commande', ['class' => 'btn btn-sm btn-primary']);?>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-12">
         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example">
@@ -51,8 +57,11 @@
     </div>
 </div>
 
-<?php echo HTML::anchor('order/create', 'Créer une nouvelle commande', ['class' => 'btn btn-primary']);?>
-
+<div class="row">
+    <div class="col-lg-12">
+        <?php echo HTML::anchor('order/create', 'Créer une nouvelle commande', ['class' => 'btn btn-primary']);?>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         $.fn.dataTable.moment( 'DD-MM-YYYY' );
