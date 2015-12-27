@@ -29,4 +29,9 @@
             $instance = self::getInstance();
             return $instance->formatInternal($number);
         }
+
+        public static function date($date)
+        {
+            return date('d-m-Y', strtotime($date));
+        }
     }

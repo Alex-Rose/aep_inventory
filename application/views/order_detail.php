@@ -146,6 +146,9 @@
                     }
                 ?>
                 <div class="col-lg-4">
+                    <a href="<?php echo URL::site('order/print/'.$order->pk());?>" target="_blank" class="form-control btn btn-success">Imprimer</a>
+                </div>
+                <div class="col-lg-4">
                     <?php
                         if (!$order->invoice->loaded())
                         {

@@ -50,4 +50,14 @@
             $this->order = ORM::factory('Order', $id);
             $this->content = View::factory('order_detail');
         }
+
+        public function action_print()
+        {
+            $id = $this->request->param('id');
+            $this->order = ORM::factory('Order', $id);
+            $this->pageTitle = 'Bière AEP - Commande #'.$this->order->pk();
+            $this->title = 'AEP - Commande de bière';
+            $this->addCss = ['assets/css/print.css'];
+            $this->content = View::factory('order_print');
+        }
     }
