@@ -122,4 +122,17 @@ class Controller_AdminOrder extends Controller_Async
             $this->data['feedback'] = Helper_Alert::success('La commande a été livrée');
         }
     }
+
+    public function action_list(){
+        $this->writeJson = true;
+
+        $page = $this->request->post('draw');
+        $start = $this->request->post('start');
+        $nb = $this->request->post('length');
+        $search = $_POST['search']['value'];
+        $sort = $_POST['order'][0]['column'];
+        $sortDir = $_POST['order'][0]['dir'];
+
+        $this->data = Helper_Datatables::orders($page, $start, $nb, $search, $sort, $sortDir);
+    }
 }

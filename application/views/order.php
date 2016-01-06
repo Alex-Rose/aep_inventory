@@ -24,34 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <?php
-                foreach ($orders as $order)
-                {
-                    echo '<tr>';
-                    echo '<td><a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> <a href="'.URL::site('order/view/'.$order->pk()).'">'.$order->client->name.'</a></td>';
-                    echo '<td><ul class="no_deco">';
-                    foreach ($order->items->find_all() as $item)
-                    {
-                        echo '<li>';
-                        echo '<span class="label label-info">'.$item->quantity.'</span> ';
-                        echo $item->product->name;
-                        echo '</li>';
-                    }
-
-                    echo '</ul></td>';
-
-                    echo '<td>'.number_format(round($order->getTotals()['total'], 2), 2).' $</td>';
-                    echo '<td>'.Form::checkbox('delivered', '', (bool)$order->delivered, ['disabled' => 'disabled']).'</td>';
-                    echo '<td># '.$order->pk();
-                    if ($order->invoice->loaded())
-                    {
-                        echo ' - facture '. HTML::anchor('invoice/view/'.$order->invoice->pk(), '#'.$order->invoice->code);
-                    }
-                    echo '</td>';
-                    echo '<td> '.date('d-m-Y', strtotime($order->created)).'</td>';
-                    echo '</tr>';
-                }
-            ?>
+            
             </tbody>
         </table>
     </div>
@@ -68,7 +41,15 @@
 
         $('#dataTables-example').DataTable({
             responsive: true,
-            order: [[ 5, "desc" ]]
+            order: [[ 5, "desc" ]],
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "AdminOrder/list",
+                type: "POST"
+            },
+            columnDefs: [ { "targets": [1,2,3], "orderable": false } ]
+
         });
     });
 
