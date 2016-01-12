@@ -62,6 +62,31 @@
             {
                 $this->data['feedback'] = Helper_Alert::danger('Facture introuvable');
             }
+        }
 
+        public function action_delete()
+        {
+            $id = $this->request->param('id');
+            $invoice = ORM::factory('Invoice', $id);
+
+            if ($invoice->loaded())
+            {
+                if (!$invoice->payment->loaded())
+                {
+                    $invoice->delete();
+                    $this->data['success'] = true;
+                    $this->data['feedback'] = Helper_Alert::success('Facture supprimée');
+                }
+                else
+                {
+                    $this->data['success'] = false;
+                    $deleteLink = HTML::anchor('AdminInvoice/unpay/'.$id, 'supprimer le paiement', ['class' => 'delete-payment']);
+                    $this->data['feedback'] = Helper_Alert::danger('La facture n\'a pas été supprimée. Veuillez d\'abord '.$deleteLink);
+                }
+            }
+            else
+            {
+                $this->data['feedback'] = Helper_Alert::danger('Facture introuvable');
+            }
         }
     }
