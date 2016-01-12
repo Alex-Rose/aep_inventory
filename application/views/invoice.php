@@ -18,53 +18,7 @@
             </tr>
             </thead>
             <tbody>
-            <?php
-                foreach ($orders as $order)
-                {
-                    echo '<tr id="row-'.$order->invoice->pk().'">';
-                    echo '<td>';
-//                    echo '<a href="'.URL::site('order/edit/'.$order->pk()).'"><i class="fa fa-edit"></i></a> ';
-                    echo $order->client->name.'</td>';
-                    echo '<td><ul class="no_deco">';
-                    foreach ($order->invoice->items->find_all() as $item)
-                    {
-                        echo '<li>';
-                        echo '<span class="label label-info">'.$item->quantity.'</span> ';
-                        echo $item->name;
-                        echo '</li>';
-                    }
-                    echo '</li></td>';
-                    echo '<td>'.Helper_Number::format($order->invoice->total).' $</td>';
-                    echo '<td>';
-                    echo '<div class="actions">';
-                    $class = $order->delivered ? 'btn-success active' : 'btn-default';
-                    $tooltip = $order->delivered ? 'Livrée' : 'Livraison en attente';
-                    $url = URL::site('AdminOrder/toggleDelivered/'.$order->pk());
-                    echo '<button type="button" class="delivered btn btn-sm '.$class.'" data-toggle="button" aria-pressed="'.($order->delivered ? 'true' : 'false').'" autocomplete="off" data-placement="top" title="'.$tooltip.'" data-url='.$url.'>';
-                    echo '<i class="fa fa-truck"></i>';
-                    echo '</button> ';
-
-//                    $class = $order->invoice->paymentID ? 'btn-primary active' : 'btn-default';
-//                    $tooltip = $order->invoice->paymentID ? 'Payée' : 'Impayée';
-//                    echo '<button type="button" class="paid btn btn-sm '.$class.'" data-toggle="button" aria-pressed="'.($order->invoice->paymentID ? 'true' : 'false').'" autocomplete="off" data-placement="top" title="'.$tooltip.'">';
-//                    echo '<i class="fa fa-usd"></i>';
-//                    echo '</button>';
-
-                    $class = $order->invoice->paymentID ? 'btn-primary' : 'btn-default';
-                    $disabled = $order->invoice->paymentID ? 'disabled' : '';
-                    $tooltip = $order->invoice->paymentID ? 'Payée' : 'Impayée';
-                    echo '<a href="'.URL::site('invoice/pay/'.$order->invoice->pk()).'" class="paid btn btn-sm '.$class.'" title="'.$tooltip.'"><i class="fa fa-usd"></i></a>';
-
-                    echo ' <a href="'.URL::site('invoice/print/'.$order->invoice->pk()).'" class="paid btn btn-sm btn-default" title="Imprimer la facture" target="_blank"><i class="fa fa-print"></i></a>';
-                    echo ' <a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'" class="paid btn btn-sm btn-default" title="Détails de la facture"><i class="fa fa-search"></i></a>';
-                    echo ' <a href="#" class="paid btn btn-sm btn-default delete-invoice" title="Supprimer la facture" data-url="'.URL::site('AdminInvoice/delete/'.$order->invoice->pk()).'" data-code="'.$order->invoice->code.'" data-row-id="row-'.$order->invoice->pk().'" data-toggle="modal" data-target="#modal-confirm"><i class="fa fa-remove"></i></a>';
-                    echo '</div>';
-                    echo '</td>';
-                    echo '<td><a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'"># '.$order->invoice->code.'</a></td>';
-                    echo '<td> '.$order->invoice->created.'</td>';
-                    echo '</tr>';
-                }
-            ?>
+            
             </tbody>
         </table>
     </div>
@@ -93,7 +47,23 @@
     var table = undefined;
     $(document).ready(function() {
         table = $('#dataTables-invoiceList').DataTable({
-            responsive: true
+            responsive: true,
+            order: [[ 5, "desc" ]],
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "AdminInvoice/list",
+                type: "POST"
+            },
+            columns : [
+                { "data" : 'name'},
+                { "data" : 'summary'},
+                { "data" : 'total'},
+                { "data" : 'action'},
+                { "data" : 'code'},
+                { "data" : 'created'},
+            ],
+            columnDefs: [ { "targets": [1,2,3], "orderable": false } ]
         });
 
         $('.delivered').tooltip();
