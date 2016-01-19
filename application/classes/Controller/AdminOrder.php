@@ -123,7 +123,8 @@ class Controller_AdminOrder extends Controller_Async
         }
     }
 
-    public function action_list(){
+    public function action_list()
+    {
         $this->writeJson = true;
 
         $page = $this->request->post('draw');
@@ -134,5 +135,36 @@ class Controller_AdminOrder extends Controller_Async
         $sortDir = $_POST['order'][0]['dir'];
 
         $this->data = Helper_Datatables::orders($page, $start, $nb, $search, $sort, $sortDir);
+    }
+
+    public function action_delete()
+    {
+        $this->writeJson = true;
+
+        $id = $this->request->param('id');
+
+        $order = ORM::factory('Order', $id);
+
+        if ($order->loaded())
+        {
+            if (!$order->invoice->loaded())
+            {
+                $order->delete();
+                $this->data['success'] = true;
+                $this->data['feedback'] = Helper_Alert::success('Commande supprimée');
+
+                Model_Log::Log('AdminOrder - User '. $this->user->pk() .' deleted order '. $id, 'TRACE');
+            }
+            else
+            {
+                $this->data['success'] = false;
+                $this->data['feedback'] = Helper_Alert::danger('Vous devez d\'abord supprimer la facture');
+            }
+        }
+        else
+        {
+            $this->data['success'] = false;
+            $this->data['feedback'] = Helper_Alert::danger('La commande n\'existe pas');
+        }
     }
 }

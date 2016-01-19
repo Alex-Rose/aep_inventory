@@ -76,6 +76,8 @@
                     $invoice->delete();
                     $this->data['success'] = true;
                     $this->data['feedback'] = Helper_Alert::success('Facture supprimée');
+
+                    Model_Log::Log('AdminOrder - User '. $this->user->pk() .' deleted invoice '. $id, 'TRACE');
                 }
                 else
                 {

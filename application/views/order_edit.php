@@ -147,6 +147,16 @@
         </div>
 
         <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-3">
+                <?php echo Form::submit('delete', 'Supprimer la commande', ['class' => 'form-control btn btn-danger',
+                    'data-url' => URL::site('AdminOrder/delete/'.$order->pk()),
+                    'data-code' => $order->pk(),
+                    'data-toggle' => "modal",
+                    'data-target' => "#modal-confirm"]);?>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-lg-offset-2 col-lg-4" id="feedback">
             </div>
         </div>
@@ -159,6 +169,25 @@
 <?php echo Form::hidden('QST', Model_Parameter::getValue('QST_RATE'));?>
 <?php echo Form::hidden('ID', $order->pk());?>
 <?php echo Form::hidden('invoice-view-url', URL::site('invoice/view'));?>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-confirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmer la suppression</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer la commande #<span id="modal-nb"></span></p>
+                <p id="modal-feedback"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="modal-dismiss">Annuler</button>
+                <button type="button" class="btn btn-danger" id="modal-delete" data-url="" data-row-id="">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -348,6 +377,43 @@
             e.preventDefault();
             addProduct();
         }
+    });
+
+    $('input:submit[name=delete]').click(function(e) {
+        e.preventDefault();
+        var code = $(this).attr('data-code');
+        var url = $(this).attr('data-url');
+        $('#modal-nb').html(code);
+        $('#modal-delete').attr('data-url', url);
+    });
+
+    $('#modal-confirm').on('hide.bs.modal', function(e){
+        $('#modal-feedback').html('');
+        $('#modal-delete').show();
+        $('#modal-delete').prop('disabled', false);
+        $('#modal-dismiss').html('Annuler');
+    });
+
+    $('#modal-delete').on('click', function(e){
+        e.preventDefault();
+        $('#modal-delete').prop('disabled', true);
+        var url = $(this).attr('data-url');
+
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: {}
+        }).done(function(data) {
+            if (data.success) {
+                $('#modal-delete').hide();
+                $('#modal-dismiss').html('Fermer');
+
+            } else {
+                $('#modal-delete').prop('disabled', false);
+            }
+
+            $('#modal-feedback').html(data.feedback);
+        });
     });
 
     $(document).on('change', 'input.qty-selector', function(e){

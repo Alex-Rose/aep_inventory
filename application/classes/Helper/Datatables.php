@@ -154,7 +154,7 @@
                 $row['action'] = $cell;
 
                 $row['code'] = '<a href="'.URL::site('invoice/view/'.$order->invoice->pk()).'"># '.$order->invoice->code.'</a>';
-                $row['created'] = date('d-m-Y', strtotime($order->created));
+                $row['created'] = date('d-m-Y', strtotime($order->invoice->created));
 
                 array_push($rows, $row);
             }
