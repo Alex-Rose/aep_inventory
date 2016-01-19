@@ -152,6 +152,7 @@ class Controller_AdminOrder extends Controller_Async
                 $order->delete();
                 $this->data['success'] = true;
                 $this->data['feedback'] = Helper_Alert::success('Commande supprimée');
+                $this->data['redirect'] = URL::site('Order');
 
                 Model_Log::Log('AdminOrder - User '. $this->user->pk() .' deleted order '. $id, 'TRACE');
             }

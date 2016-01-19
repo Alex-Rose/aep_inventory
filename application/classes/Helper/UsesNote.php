@@ -28,6 +28,8 @@
                     $note = ORM::factory('Note');
                     $note->save();
                     $this->noteID = $note->pk();
+                    $note->value = $value;
+                    $note->save();
                 }
                 $note->value = $value;
                 $this->note_changed = true;

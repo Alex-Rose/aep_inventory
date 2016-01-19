@@ -146,6 +146,7 @@
 
         </div>
 
+        <?php if ($order->loaded()) { ?>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-3">
                 <?php echo Form::submit('delete', 'Supprimer la commande', ['class' => 'form-control btn btn-danger',
@@ -155,6 +156,7 @@
                     'data-target' => "#modal-confirm"]);?>
             </div>
         </div>
+        <?php } ?>
 
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-4" id="feedback">
@@ -341,6 +343,7 @@
         }).done(function(data) {
             $('input:hidden[name=ID]').val(data.ID);
             $('#feedback').html(data.feedback);
+            window.scrollTo(0,document.body.scrollHeight);
 
             if (data.invoiceID != null) {
                 var url = $('input:hidden[name=invoice-view-url]').val();
@@ -362,6 +365,7 @@
             data: { 'id': id}
         }).done(function(data) {
             $('#feedback').html(data.feedback);
+            window.scrollTo(0,document.body.scrollHeight);
         });
     });
 
@@ -407,7 +411,9 @@
             if (data.success) {
                 $('#modal-delete').hide();
                 $('#modal-dismiss').html('Fermer');
-
+                setTimeout(function(){
+                    window.location = data.redirect;
+                }, 3000);
             } else {
                 $('#modal-delete').prop('disabled', false);
             }
