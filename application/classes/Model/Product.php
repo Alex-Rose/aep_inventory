@@ -45,4 +45,20 @@
                 return parent::__get($parameter);
             }
         }
+
+
+        public function delete()
+        {
+            $cnt = ORM::factory('OrderItem')->where('productID', '=', $this->pk())->count_all();
+            if ($cnt == 0)
+            {
+                parent::delete();
+            }
+            else
+            {
+                $this->discontinued = true;
+                $this->save();
+            }
+
+        }
     }

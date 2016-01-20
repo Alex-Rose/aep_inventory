@@ -88,7 +88,8 @@
             </div>
             <?php if ($product->loaded()) { ?>
             <div class="col-lg-3">
-                <?php echo Form::submit('delete', 'Supprimer', ['class' => 'form-control btn btn-danger']);?>
+                <?php echo Form::submit('delete', 'Supprimer', ['class' => 'form-control btn btn-danger', 'data-url' => URL::site('AdminProduct/delete/'.$product->pk())]);?>
+                <?php echo Form::hidden('productList', URL::site('parameter/product'));?>
             </div>
             <?php } ?>
         </div>
@@ -142,7 +143,20 @@
 
     $('input:submit[name=delete]').click(function(e){
         e.preventDefault();
-        $('#feedback').html('<div class="alert alert-danger">Ooops cette fonctionnalité n\'est pas encore finie!</div>');
+        var url = $(this).attr('data-url');
+
+        $.ajax({
+            url: url,
+            method: 'GET'
+        }).done(function(data) {
+            $('#feedback').html(data.feedback);
+
+            if (data.success) {
+                var url = $('input:hidden[name=productList]').val();
+                setTimeout(function(){window.location.href = url}, 2000);
+            }
+        });
+
     });
 
 </script>

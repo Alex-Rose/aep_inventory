@@ -57,7 +57,7 @@ class Controller_AdminProduct extends Controller_Async
 
         $keywords = explode(' ', $query);
 
-        $products = ORM::factory('Product')->where_open();
+        $products = ORM::factory('Product')->where('discontinued', '=', false)->where_open();
         foreach ($keywords as $kw)
         {
             $products->where('name', 'LIKE', '%'.$kw.'%');
@@ -85,7 +85,7 @@ class Controller_AdminProduct extends Controller_Async
 
     public function action_allProducts()
     {
-        $products = ORM::factory('Product')->find_all();
+        $products = ORM::factory('Product')->where('discontinued', '=', false)->find_all();
 
         $result = [];
         foreach ($products as $product)
@@ -99,7 +99,7 @@ class Controller_AdminProduct extends Controller_Async
     // This is not very scalable. Consider making calls to get what is needed OR cache result on clients
     public function action_associative()
     {
-        $products = ORM::factory('Product')->find_all();
+        $products = ORM::factory('Product')->where('discontinued', '=', false)->find_all();
 
         $result = [];
         foreach ($products as $product)
@@ -127,7 +127,7 @@ class Controller_AdminProduct extends Controller_Async
 
     public function action_formats()
     {
-        $sQuery = 'SELECT DISTINCT(format) FROM product';
+        $sQuery = 'SELECT DISTINCT(format) FROM product where discontinued = FALSE';
         $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
 
         $results = [];
@@ -141,7 +141,7 @@ class Controller_AdminProduct extends Controller_Async
 
     public function action_packages()
     {
-        $sQuery = 'SELECT DISTINCT(package_size) FROM product';
+        $sQuery = 'SELECT DISTINCT(package_size) FROM product where discontinued = FALSE';
         $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
 
         $results = [];
@@ -155,7 +155,7 @@ class Controller_AdminProduct extends Controller_Async
 
     public function action_types()
     {
-        $sQuery = 'SELECT DISTINCT(type) FROM product';
+        $sQuery = 'SELECT DISTINCT(type) FROM product where discontinued = FALSE';
         $dQuery = DB::query(Database::SELECT, $sQuery)->execute();
 
         $results = [];
@@ -202,6 +202,24 @@ class Controller_AdminProduct extends Controller_Async
             $i->type            = $product->type;
             $i->code            = $product->code;
             $i->save();
+        }
+    }
+
+    protected function action_delete()
+    {
+        $id = $this->request->param('id');
+
+        $product = ORM::factory('Product', $id);
+
+        if ($product->loaded())
+        {
+            $product->delete();
+            $this->data['success'] = true;
+            $this->data['feedback'] = Helper_Alert::success('Produit supprimé avec succès.');
+        }
+        else
+        {
+            $this->data['feedback'] = Helper_Alert::danger('Le produit n\'existe pas.');
         }
     }
 }

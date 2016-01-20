@@ -12,7 +12,7 @@
         public function action_index()
         {
             $this->title = 'Liste des produits';
-            $this->products = ORM::factory('Product')->find_all();
+            $this->products = ORM::factory('Product')->where('discontinued', '=', false)->find_all();
             $this->content = View::factory('product_list');
         }
 
@@ -37,7 +37,7 @@
         public function action_list()
         {
             $this->title = 'Liste des produits';
-            $this->products = ORM::factory('Product')->find_all();
+            $this->products = ORM::factory('Product')->where('discontinued', '=', false)->find_all();
             $this->content = View::factory('product_list');
         }
     }

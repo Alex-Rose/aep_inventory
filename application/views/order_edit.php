@@ -6,6 +6,15 @@
 <div class="row">
     <div class="col-lg-12">
         <?php echo Form::open('AdminOrder/save', ['class' => 'form-horizontal', 'role' => 'form']); ?>
+
+        <?php if (isset($comment)) { ?>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-4">
+                 <?php echo $comment; ?>
+            </div>
+        </div>
+        <?php } ?>
+
         <div class="form-group">
             <label class="control-label col-lg-2">Client</label>
             <div class="col-lg-10" id="client-search">

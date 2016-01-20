@@ -32,6 +32,7 @@
             {
                 $this->title = 'Modification de la commande';
                 $this->content = View::factory('order_edit');
+                $this->validateOrder();
             }
             else
             {
@@ -58,5 +59,38 @@
             $this->title = 'AEP - Commande de bière';
             $this->addCss = ['assets/css/print.css'];
             $this->content = View::factory('order_print');
+        }
+
+        protected function validateOrder()
+        {
+            $discontinued = [];
+            foreach ($this->order->items->find_all() as $item)
+            {
+                if ($item->product->discontinued)
+                {
+                    $discontinued[$item->product->code] = $item->product->name;
+                    $item->delete();
+                }
+            }
+
+            if (!empty($discontinued))
+            {
+                $comment = 'La commande contenait des produits discontinués. Ces derniers ont été supprimés. <br/><ul>';
+
+                foreach ($discontinued as $code => $name)
+                {
+                    $comment .= '<li>['.$code.'] '.$name.'</li>';
+                }
+
+                $comment .= '</ul>';
+
+                $this->comment = Helper_Alert::warning($comment);
+
+                if ($this->order->invoice->loaded() && $this->order->invoice->paymentID == null) // Should check this before editing the order
+                {
+                    $this->order->invoice->delete();
+                    $this->order->createInvoice();
+                }
+            }
         }
     }
