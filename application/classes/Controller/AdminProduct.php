@@ -26,29 +26,37 @@ class Controller_AdminProduct extends Controller_Async
 
         $product = ORM::factory('Product', $id);
 
-        $product->name = $name;
-        $product->description = $description;
-        $product->brand = $brand;
-        $product->format = $format;
-        $product->package_size = $pkg_size;
-        $product->type = $type;
-        $product->code = $code;
+        if (ORM::factory('Product')->where('code', '=', $code)->count_all() == 0 ||
+            ($product->loaded() && $product->code == $code))
+        {
+            $product->name = $name;
+            $product->description = $description;
+            $product->brand = $brand;
+            $product->format = $format;
+            $product->package_size = $pkg_size;
+            $product->type = $type;
+            $product->code = $code;
 
-        $product->save();
+            $product->save();
 
-        $price = ORM::factory('Price')->where('productID', '=', $product->pk())->find();
+            $price = ORM::factory('Price')->where('productID', '=', $product->pk())->find();
 
-        $price->productID = $product->pk();
-        $price->cost    = $cost;
-        $price->price   = $salePrice;
-        $price->taxes   = $taxes;
-        $price->refund  = $refund;
-        $price->save();
+            $price->productID = $product->pk();
+            $price->cost    = $cost;
+            $price->price   = $salePrice;
+            $price->taxes   = $taxes;
+            $price->refund  = $refund;
+            $price->save();
 
-        $this->updateInvoices($product);
+            $this->updateInvoices($product);
 
-        $this->data['success'] = true;
-        $this->data['feedback'] = Helper_Alert::success('Enregistrement reussi');
+            $this->data['success'] = true;
+            $this->data['feedback'] = Helper_Alert::success('Enregistrement reussi');
+        }
+        else
+        {
+            $this->data['feedback'] = Helper_Alert::danger('Un produit existe déjà avec le code '.$code);
+        }
     }
 
     public function action_search()
