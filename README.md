@@ -80,3 +80,14 @@ mv .htaccess.bak .htaccess
 mv application/bootstrap.php.bak application/bootstrap.php
 mv application/config/database.php.bak application/config/database.php
 ```
+
+## Kohana Framework deprecated
+As of 2017, Kohana is a deprecated PHP framework and the latest version 3.3.6 was released on 25. July 2016.
+This application was built on **Kohana 3.3.3** and since the development is done, it makes perfect sense to 
+keep Kohana as is. Servicing and further enhancements can still be done on this application for as long as
+PHP5 stays around. I took the liberty of making a copy of the Kohana documentation for version 3.3.3, which can be
+found here : http://step.polymtl.ca/~alexrose/kohana_doc/v2docs.kohanaframework.org/3.3/guide/. This should be
+more than enough to continue development, but the framework's source code is always available for reading and
+patching.
+
+Farewell, Kohana
