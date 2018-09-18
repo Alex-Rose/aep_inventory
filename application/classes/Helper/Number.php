@@ -21,7 +21,7 @@
 
         protected function formatInternal($number)
         {
-            return money_format('%!-i', $number);
+            return str_replace("\xa0", ' ', money_format('%!-i', $number));
         }
 
         public static function format($number)
