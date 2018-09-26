@@ -129,7 +129,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Methode de paiement</label>
             <div class="col-lg-4">
-                <?php echo Form::select('method', ['cash' => 'Argent comptant', 'impute' => 'Imputer'], $method, ['class' => 'form-control']);?>
+                <?php echo Form::select('method', Helper_Payment::$friendlyMethodNames, $method, ['class' => 'form-control']);?>
             </div>
         </div>
 

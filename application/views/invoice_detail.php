@@ -158,7 +158,7 @@
         <div class="form-group">
             <label class="control-label col-lg-2">Méthode de paiement</label>
             <div class="col-lg-1">
-                <div class="form-text"><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : '');?></div>
+                <div class="form-text"><?php echo ($invoice->payment->loaded() ? (Helper_Payment::methodName($invoice->payment->method)) : '');?></div>
             </div>
         </div>
 

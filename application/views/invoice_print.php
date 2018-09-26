@@ -92,7 +92,7 @@
 
         <div class="form-group">
             <div class="col-xs-4">
-                <div class="h4"><?php echo ($invoice->payment->loaded() ? ($invoice->payment->method == 'cash' ? 'Argent comptant' : 'Imputer') : 'Paiement :');?></div>
+                <div class="h4"><?php echo ($invoice->payment->loaded() ? (Helper_Payment::methodName($invoice->payment->method)) : 'Paiement :');?></div>
             </div>
         </div>
 

@@ -38,7 +38,7 @@
             else
             {
                 $this->amount = $this->invoice->total;
-                $this->method = 'cash';
+                $this->method = 'unpaid';
             }
 
             $this->content = View::factory('invoice_payment');

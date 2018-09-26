@@ -12,7 +12,7 @@
         public function action_pay()
         {
             $id = $this->request->param('id');
-            $amount = $this->request->post('amount');
+            $amount = Helper_Number::getFromString($this->request->post('amount'));
             $method = $this->request->post('method');
 
             $invoice = ORM::factory('Invoice', $id);
@@ -21,17 +21,33 @@
             {
                 $payment = ORM::factory('Payment')->where('invoiceID', '=', $invoice->pk())->find();
 
-                $payment->invoiceID = $invoice->pk();
-                $payment->method = $method;
-                $payment->amount = $amount;
-                $payment->userID = Model_User::current()->pk();
-                $payment->save();
+                if ($method == 'unpaid')
+                {
+                    if ($invoice->payment->loaded())
+                    {
+                        $invoice->payment->delete();
+                    }
 
-                $invoice->paymentID = $payment->pk();
-                $invoice->save();
+                    $invoice->paymentID = null;
+                    $invoice->save();
 
-                $this->data['success'] = true;
-                $this->data['feedback'] = Helper_Alert::success('Paiement enregistré avec succès');
+                    $this->data['success'] = true;
+                    $this->data['feedback'] = Helper_Alert::success('Détails enregistrés');
+                }
+                else
+                {
+                    $payment->invoiceID = $invoice->pk();
+                    $payment->method = $method;
+                    $payment->amount = $amount;
+                    $payment->userID = Model_User::current()->pk();
+                    $payment->save();
+
+                    $invoice->paymentID = $payment->pk();
+                    $invoice->save();
+
+                    $this->data['success'] = true;
+                    $this->data['feedback'] = Helper_Alert::success('Paiement enregistré avec succès');
+                }
             }
             else
             {

@@ -34,4 +34,11 @@
         {
             return date('d-m-Y', strtotime($date));
         }
+
+        public static function getFromString($val)
+        {
+            $number = str_replace(',', '.', $val);
+            $number = str_replace([' ', "\xa0"], '', $number);
+            return floatval($number);
+        }
     }
