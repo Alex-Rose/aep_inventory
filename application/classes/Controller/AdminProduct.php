@@ -98,7 +98,7 @@ class Controller_AdminProduct extends Controller_Async
         $result = [];
         foreach ($products as $product)
         {
-            array_push($result, $product->code . ' - ' . $product->name);
+            array_push($result, $product->code . ' \\ ' . $product->name);
         }
 
         $this->data = $result;

@@ -181,7 +181,7 @@
         e.preventDefault();
 
         var url = $(this).attr('data-url');
-        var productCode = $('input[name=product-search]').val().split('-')[0].trim();
+        var productCode = $('input[name=product-search]').val().split('\\')[0].trim();
         var product = products[productCode];
         var id = product['ID'];
         var qty = $('input[name=add-nb]').val();

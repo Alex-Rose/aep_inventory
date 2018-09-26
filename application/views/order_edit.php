@@ -328,7 +328,7 @@
     $('button[name=add]').click(function(e){
         e.preventDefault();
 
-        addProduct($('input[name=product-search]').val().split('-')[0].trim(), $('input[name=add-nb]').val());
+        addProduct($('input[name=product-search]').val().split('\\')[0].trim(), $('input[name=add-nb]').val());
     });
 
     $('input:submit[name=save]').click(function(e){
